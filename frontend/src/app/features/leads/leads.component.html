@@ -360,153 +360,204 @@
   </ng-container>
 
   <!-- EXCEL UPLOAD & EQUAL AUTO-ASSIGNMENT MODAL -->
-  <div class="modal-backdrop" *ngIf="showExcelModal()">
-    <div class="modal-card modal-lg">
-      <div class="modal-header-banner">
-        <div class="header-icon-box">
-          <span class="material-symbols-outlined">table_chart</span>
+  <div class="modal-backdrop" *ngIf="showExcelModal()" (click)="closeExcelModal()">
+    <div class="modal-card modal-lg" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-squircle-icon">
+            <span class="material-symbols-outlined">table_chart</span>
+          </div>
+          <div>
+            <h2>Excel Lead Upload</h2>
+            <p class="modal-sub">Import CSV/Excel lead files and auto-assign equally to telecallers</p>
+          </div>
         </div>
-        <div>
-          <h2>Excel Lead Upload </h2>
+        <button class="btn-close-modal" (click)="closeExcelModal()" aria-label="Close" type="button">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Success Notification Alert -->
+        <div class="alert alert-success" *ngIf="uploadSuccessMessage()">
+          <span class="material-symbols-outlined">check_circle</span>
+          <span>{{ uploadSuccessMessage() }}</span>
         </div>
-      </div>
 
-      <!-- Success Notification Alert -->
-      <div class="alert alert-success" *ngIf="uploadSuccessMessage()">
-        <span class="material-symbols-outlined">check_circle</span>
-        <span>{{ uploadSuccessMessage() }}</span>
-      </div>
-
-      <!-- Validation Error Alert -->
-      <div class="alert alert-danger" *ngIf="uploadValidationError()">
-        <span class="material-symbols-outlined">warning</span>
-        <span>{{ uploadValidationError() }}</span>
-      </div>
-
-      <div class="form-group mt-4">
-        <label>Campaign Name <span class="text-danger">*</span></label>
-        <input type="text" [(ngModel)]="campaignName" placeholder="Campaign Name" required />
-      </div>
-
-      <!-- File Upload & Sample Download Box -->
-      <div class="upload-drop-zone mt-3">
-        <div class="drop-icon">
-          <span class="material-symbols-outlined">cloud_upload</span>
+        <!-- Validation Error Alert -->
+        <div class="alert alert-danger" *ngIf="uploadValidationError()">
+          <span class="material-symbols-outlined">warning</span>
+          <span>{{ uploadValidationError() }}</span>
         </div>
-        <h4>Select Lead Sheet</h4>
-        <p class="font-bold text-slate">All 5 columns are REQUIRED: First Name, Last Name, Email, Phone, Source</p>
 
-        <div class="upload-actions-row">
-          <label class="btn btn-emerald btn-sm cursor-pointer">
-            <span class="material-symbols-outlined">folder_open</span>
-            Browse File
-            <input type="file" accept=".csv, .xlsx, .txt" (change)="onFileSelected($event)" hidden />
-          </label>
-          <button class="btn btn-text btn-sm" (click)="downloadSampleCsv()">
-            <span class="material-symbols-outlined">download</span>
-            Download Sample CSV
-          </button>
+        <div class="form-group">
+          <label class="form-label">Campaign Name <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="campaignName" placeholder="e.g. Q3 Digital Growth Campaign" class="form-input" required />
         </div>
-      </div>
 
-      <!-- Parsed Raw Preview Text box -->
-      <div class="form-group mt-3">
-        <label>CSV Content Preview <span class="text-danger">* (5 columns required per row)</span></label>
-        <textarea
-          rows="3"
-          [(ngModel)]="excelRawText"
-          (ngModelChange)="parseCsvText($event)"
-          placeholder="First Name, Last Name, Email, Phone, Source"></textarea>
-      </div>
-
-      <!-- Active Telecallers Equal Allocation Selector -->
-      <div class="telecallers-selection-box mt-4">
-        <div class="box-title">
-          <span class="material-symbols-outlined text-amber">group</span>
-          <span>Target Telecallers for Equal Distribution</span>
-        </div>
-        <div class="telecaller-checkboxes">
-          <label class="tc-checkbox-card" *ngFor="let tc of activeTelecallers()">
-            <input
-              type="checkbox"
-              [checked]="selectedTelecallerIds().includes(tc.id)"
-              (change)="toggleTelecallerSelection(tc.id)" />
-            <div class="tc-cb-info">
-              <span class="tc-cb-name">{{ tc.fullName }}</span>
-              <span class="tc-cb-email">{{ tc.email }}</span>
+        <!-- File Upload & Sample Download Box -->
+        <div class="upload-drop-zone">
+          <div class="drop-zone-header">
+            <div class="drop-icon-squircle">
+              <span class="material-symbols-outlined">cloud_upload</span>
             </div>
-          </label>
+            <div class="drop-zone-titles">
+              <h4 class="drop-zone-title">Select Lead Sheet</h4>
+              <p class="drop-zone-desc">Required columns: <strong>First Name, Last Name, Email, Phone, Source</strong></p>
+            </div>
+          </div>
+
+          <div class="upload-actions-row">
+            <label class="btn-browse-file">
+              <span class="material-symbols-outlined">folder_open</span>
+              <span>Browse File</span>
+              <input type="file" accept=".csv, .xlsx, .txt" (change)="onFileSelected($event)" hidden />
+            </label>
+          </div>
+        </div>
+
+        <!-- Parsed Raw Preview Text box -->
+        <div class="form-group">
+          <label class="form-label">CSV Content Preview <span class="required">* (5 columns required per row)</span></label>
+          <textarea
+            rows="3"
+            class="form-input form-textarea"
+            [(ngModel)]="excelRawText"
+            (ngModelChange)="parseCsvText($event)"
+            placeholder="First Name, Last Name, Email, Phone, Source"></textarea>
+        </div>
+
+        <!-- Active Telecallers Equal Allocation Selector -->
+        <div class="telecallers-selection-box">
+          <div class="box-title">
+            <span class="material-symbols-outlined text-indigo">group</span>
+            <span>Target Telecallers for Equal Distribution</span>
+          </div>
+          <div class="telecaller-checkboxes" *ngIf="activeTelecallers().length > 0">
+            <label class="tc-checkbox-card" *ngFor="let tc of activeTelecallers()">
+              <input
+                type="checkbox"
+                class="tc-checkbox"
+                [checked]="selectedTelecallerIds().includes(tc.id)"
+                (change)="toggleTelecallerSelection(tc.id)" />
+              <div class="tc-cb-info">
+                <span class="tc-cb-name">{{ tc.fullName }}</span>
+                <span class="tc-cb-email">{{ tc.email }}</span>
+              </div>
+            </label>
+          </div>
+          <div class="no-telecallers-note" *ngIf="activeTelecallers().length === 0">
+            <span class="material-symbols-outlined">info</span>
+            <span>No active telecallers found for assignment.</span>
+          </div>
         </div>
       </div>
-      <div class="modal-actions mt-5">
-        <button class="btn btn-secondary" (click)="closeExcelModal()">Cancel</button>
+
+      <div class="modal-footer">
+        <button class="btn-action-secondary" (click)="closeExcelModal()" type="button">Cancel</button>
         <button
-          class="btn btn-emerald btn-lg"
+          class="btn-action-primary"
+          type="button"
           (click)="submitEqualAutoAssignment()"
           [disabled]="parsedLeads().length === 0 || selectedTelecallerIds().length === 0 || uploadValidationError() !== null">
-          <span class="material-symbols-outlined">verified</span>
-          Upload & Assign
+          <span class="material-symbols-outlined fs-16">verified</span>
+          <span>Upload & Assign</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- SINGLE MANUAL LEAD MODAL -->
-  <div class="modal-backdrop" *ngIf="showModal()">
-    <div class="modal-card">
-      <h2>Add New Lead</h2>
-      <p class="text-subtle fs-13 mb-3">All fields marked with <span class="text-danger">*</span> are strictly required.</p>
+  <div class="modal-backdrop" *ngIf="showModal()" (click)="closeModal()">
+    <div class="modal-card modal-md" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-squircle-icon">
+            <span class="material-symbols-outlined">person_add</span>
+          </div>
+          <div>
+            <h2>Add New Lead</h2>
+            <p class="modal-sub">Manually insert a single qualified lead into pipeline</p>
+          </div>
+        </div>
+        <button class="btn-close-modal" (click)="closeModal()" aria-label="Close" type="button">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label>First Name <span class="text-danger">*</span></label>
-          <input type="text" [(ngModel)]="newFirstName" placeholder="First Name" required />
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label">First Name <span class="required">*</span></label>
+            <input type="text" [(ngModel)]="newFirstName" placeholder="First Name" class="form-input" required />
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label">Last Name <span class="required">*</span></label>
+            <input type="text" [(ngModel)]="newLastName" placeholder="Last Name" class="form-input" required />
+          </div>
         </div>
         <div class="form-group">
-          <label>Last Name <span class="text-danger">*</span></label>
-          <input type="text" [(ngModel)]="newLastName" placeholder="Last Name" required />
+          <label class="form-label">Phone Number <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="newPhone" placeholder="+91 9876543210" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="required">*</span></label>
+          <input type="email" [(ngModel)]="newEmail" placeholder="email@example.com" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lead Source <span class="required">*</span></label>
+          <input type="text" [(ngModel)]="newSource" placeholder="Digital Ads / Google Search" class="form-input" required />
         </div>
       </div>
-      <div class="form-group">
-        <label>Phone Number <span class="text-danger">*</span></label>
-        <input type="text" [(ngModel)]="newPhone" placeholder="+91 9876543210" required />
-      </div>
-      <div class="form-group">
-        <label>Email Address <span class="text-danger">*</span></label>
-        <input type="email" [(ngModel)]="newEmail" placeholder="email@example.com" required />
-      </div>
-      <div class="form-group">
-        <label>Lead Source <span class="text-danger">*</span></label>
-        <input type="text" [(ngModel)]="newSource" placeholder="Digital Ads / Google Search" required />
-      </div>
-      <div class="modal-actions mt-4">
-        <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+
+      <div class="modal-footer">
+        <button class="btn-action-secondary" (click)="closeModal()" type="button">Cancel</button>
         <button
-          class="btn btn-primary"
+          class="btn-action-primary"
+          type="button"
           (click)="createLead()"
           [disabled]="!newFirstName.trim() || !newLastName.trim() || !newEmail.trim() || !newPhone.trim() || !newSource.trim()">
-          Save Lead
+          <span class="material-symbols-outlined fs-16">save</span>
+          <span>Save Lead</span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- MANUAL ASSIGN MODAL -->
-  <div class="modal-backdrop" *ngIf="selectedLeadForAssign">
-    <div class="modal-card">
-      <h2>Assign Lead</h2>
-      <p>Lead: <strong>{{ selectedLeadForAssign.firstName }} {{ selectedLeadForAssign.lastName }}</strong></p>
-      <div class="form-group">
-        <label>Select Telecaller</label>
-        <select [ngModel]="selectedUserId" (change)="onUserSelectChange($event)">
-          <option *ngFor="let user of realUsersList()" [value]="user.id">
-            {{ user.fullName }}
-          </option>
-        </select>
+  <div class="modal-backdrop" *ngIf="selectedLeadForAssign" (click)="selectedLeadForAssign = null">
+    <div class="modal-card modal-sm" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-squircle-icon">
+            <span class="material-symbols-outlined">assignment_ind</span>
+          </div>
+          <div>
+            <h2>Assign Lead</h2>
+            <p class="modal-sub">{{ selectedLeadForAssign.firstName }} {{ selectedLeadForAssign.lastName }}</p>
+          </div>
+        </div>
+        <button class="btn-close-modal" (click)="selectedLeadForAssign = null" aria-label="Close" type="button">
+          <span class="material-symbols-outlined">close</span>
+        </button>
       </div>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" (click)="selectedLeadForAssign = null">Cancel</button>
-        <button class="btn btn-primary" (click)="confirmAssign()" [disabled]="!selectedUserId">Assign</button>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Select Telecaller <span class="required">*</span></label>
+          <select [ngModel]="selectedUserId" (change)="onUserSelectChange($event)" class="form-input">
+            <option *ngFor="let user of realUsersList()" [value]="user.id">
+              {{ user.fullName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-action-secondary" (click)="selectedLeadForAssign = null" type="button">Cancel</button>
+        <button class="btn-action-primary" (click)="confirmAssign()" [disabled]="!selectedUserId" type="button">
+          <span>Assign Lead</span>
+        </button>
       </div>
     </div>
   </div>

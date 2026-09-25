@@ -815,6 +815,12 @@ export class DesignerDashboardComponent implements OnInit {
     }
   }
 
+  viewTask(event: Event, task: Task): void {
+    event.stopPropagation();
+    this.taskService.selectTask(task.id);
+    this.activeDetailTab.set('VERSIONS');
+  }
+
   async deleteTask(event: Event, task: Task): Promise<void> {
     event.stopPropagation();
     if (!this.canDeleteTask()) {

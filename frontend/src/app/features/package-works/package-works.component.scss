@@ -271,8 +271,91 @@
       }
     }
 
-    /* Theme 1: Package Works (Indigo) */
-    &.card-pkg-works {
+    /* Universal Squircle Icon Colors */
+    .kpi-squircle-icon {
+      &.icon-amber {
+        background: #F59E0B;
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      }
+
+      &.icon-indigo {
+        background: #6366F1;
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      }
+
+      &.icon-purple {
+        background: #9333EA;
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+      }
+
+      &.icon-emerald {
+        background: #10B981;
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      }
+
+      &.icon-blue {
+        background: #2563EB;
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      }
+
+      &.icon-teal {
+        background: #0D9488;
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+      }
+
+      &.icon-rose {
+        background: #E11D48;
+        color: #FFFFFF;
+        box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+      }
+    }
+
+    /* Universal Pill Badge Colors */
+    .kpi-pill-badge, .kpi-footer-pill {
+      &.pill-amber {
+        background-color: #FEF3C7;
+        color: #92400E;
+      }
+
+      &.pill-indigo {
+        background-color: #EDE9FE;
+        color: #5B21B6;
+      }
+
+      &.pill-purple {
+        background-color: #FAF5FF;
+        color: #6D28D9;
+      }
+
+      &.pill-emerald {
+        background-color: #D1FAE5;
+        color: #065F46;
+      }
+
+      &.pill-blue {
+        background-color: #EFF6FF;
+        color: #1D4ED8;
+      }
+
+      &.pill-teal {
+        background-color: #CCFBF1;
+        color: #0F766E;
+      }
+
+      &.pill-rose {
+        background-color: #FFE4E6;
+        color: #9F1239;
+      }
+    }
+
+    /* Card Themes Border & Shadow Glow */
+    &.card-pkg-works, &.card-indigo {
       border: 1.5px solid #DDD6FE;
       box-shadow: 0 8px 24px rgba(99, 102, 241, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
 
@@ -280,24 +363,9 @@
         border-color: #6366F1;
         box-shadow: 0 14px 32px rgba(99, 102, 241, 0.16);
       }
-
-      .icon-indigo {
-        background: #6366F1;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-      }
-
-      .pill-indigo {
-        background-color: #EDE9FE;
-        color: #5B21B6;
-      }
-
-      .kpi-value {
-        color: #1E1B4B;
-      }
     }
 
-    /* Theme 2: In Progress (Amber) */
-    &.card-revenue {
+    &.card-revenue, &.card-amber {
       border: 1.5px solid #FDE68A;
       box-shadow: 0 8px 24px rgba(245, 158, 11, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
 
@@ -305,24 +373,9 @@
         border-color: #F59E0B;
         box-shadow: 0 14px 32px rgba(245, 158, 11, 0.16);
       }
-
-      .icon-amber {
-        background: #F59E0B;
-        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-      }
-
-      .pill-amber {
-        background-color: #FEF3C7;
-        color: #92400E;
-      }
-
-      .kpi-value {
-        color: #1C1917;
-      }
     }
 
-    /* Theme 3: Completed (Emerald) */
-    &.card-conversion {
+    &.card-conversion, &.card-emerald {
       border: 1.5px solid #A7F3D0;
       box-shadow: 0 8px 24px rgba(16, 185, 129, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
 
@@ -330,24 +383,9 @@
         border-color: #10B981;
         box-shadow: 0 14px 32px rgba(16, 185, 129, 0.16);
       }
-
-      .icon-emerald {
-        background: #10B981;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-      }
-
-      .pill-emerald {
-        background-color: #D1FAE5;
-        color: #065F46;
-      }
-
-      .kpi-value {
-        color: #064E3B;
-      }
     }
 
-    /* Theme 4: Campaigns & Leads (Purple) */
-    &.card-leads {
+    &.card-leads, &.card-purple {
       border: 1.5px solid #E9D5FF;
       box-shadow: 0 8px 24px rgba(147, 51, 234, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
 
@@ -355,19 +393,25 @@
         border-color: #9333EA;
         box-shadow: 0 14px 32px rgba(147, 51, 234, 0.16);
       }
+    }
 
-      .icon-purple {
-        background: #9333EA;
-        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+    &.card-blue, &.card-roi {
+      border: 1.5px solid #BFDBFE;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
+
+      &:hover {
+        border-color: #2563EB;
+        box-shadow: 0 14px 32px rgba(37, 99, 235, 0.16);
       }
+    }
 
-      .pill-purple {
-        background-color: #FAF5FF;
-        color: #6D28D9;
-      }
+    &.card-teal, &.card-speed {
+      border: 1.5px solid #99F6E4;
+      box-shadow: 0 8px 24px rgba(13, 148, 136, 0.08), 0 2px 6px rgba(0, 0, 0, 0.02);
 
-      .kpi-value {
-        color: #3B0764;
+      &:hover {
+        border-color: #0D9488;
+        box-shadow: 0 14px 32px rgba(13, 148, 136, 0.16);
       }
     }
   }

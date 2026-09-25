@@ -262,7 +262,7 @@
     </div>
 
     <!-- Content Split: Task Board & Real-Time Timeline Panel -->
-    <div class="dashboard-split">
+    <div class="dashboard-split" [class.panel-open]="!!taskService.selectedTask()">
       <!-- Main Task Board -->
       <main class="main-board">
         <div class="board-toolbar">
@@ -296,7 +296,7 @@
 
         <!-- Task List Cards -->
         <div class="task-list">
-          <div class="task-card" *ngFor="let task of filteredTasks()" [class.selected]="taskService.selectedTask()?.id === task.id" (click)="taskService.selectTask(task.id)">
+          <div class="task-card" *ngFor="let task of filteredTasks()" [class.selected]="taskService.selectedTask()?.id === task.id" (click)="viewTask($event, task)">
             <div class="task-header">
               <div class="title-group">
                 <span class="priority-tag" [ngClass]="getPriorityBadgeClass(task.priority)">{{ task.priority }}</span>
@@ -390,6 +390,11 @@
                   Review
                 </button>
 
+                <button class="btn btn-xs btn-view-task" (click)="viewTask($event, task)" title="View Task Details & Versions">
+                  <span class="material-symbols-outlined icon-xs">visibility</span>
+                  <span>View Task</span>
+                </button>
+
                 <button *ngIf="canDeleteTask()" class="btn btn-xs btn-danger-outline" (click)="deleteTask($event, task)" title="Delete Task">
                   <span class="material-symbols-outlined icon-xs">delete</span>
                   Delete
@@ -406,8 +411,8 @@
       </main>
 
       <!-- Side Panel: Redesigned Task Detail & Workflow History Drawer -->
-      <aside class="side-panel">
-        <div class="panel-card detail-card" *ngIf="taskService.selectedTask() as selTask">
+      <aside class="side-panel" *ngIf="taskService.selectedTask() as selTask">
+        <div class="panel-card detail-card">
           <!-- Panel Header -->
           <div class="panel-header">
             <div class="header-title-box">
@@ -481,11 +486,6 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="panel-card empty-panel-hint" *ngIf="!taskService.selectedTask()">
-          <span class="material-symbols-outlined hint-icon">touch_app</span>
-          <p>Click Tasks For the Versions</p>
         </div>
       </aside>
     </div>

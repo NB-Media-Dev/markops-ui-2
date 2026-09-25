@@ -9,19 +9,53 @@
     "attachmentName": "",
     "campaignId": "",
     "campaignName": "",
-    "status": "IN_PROGRESS",
+    "status": "APPROVED",
     "priority": "HIGH",
     "createdBy": 1,
     "creatorName": "System Administrator",
     "creatorRole": "ADMINISTRATOR",
     "assignedTo": "5",
     "assigneeName": "Assigned Designer",
-    "progressPercent": 40,
+    "progressPercent": 100,
     "dueDate": "2026-09-29",
     "createdAt": "2026-09-25T09:47:07.340Z",
-    "updatedAt": "2026-09-25T09:48:54.482Z",
-    "versions": [],
+    "updatedAt": "2026-09-25T11:14:10.345Z",
+    "versions": [
+      {
+        "id": "ver_rp0mxn7",
+        "taskId": "task_x8syzvwr5",
+        "versionNumber": 1,
+        "submittedBy": "usr_admin_01",
+        "submittedByName": "System Administrator",
+        "fileName": "creative_version_v1.png",
+        "filePath": "/uploads/creatives/creative_version_v1.png",
+        "fileSize": 2097152,
+        "changelog": "chnage the blue color and it make it as  dark color ",
+        "fileContent": "chnage the blue color and it make it as  dark color ",
+        "createdAt": "2026-09-25T11:13:26.308Z"
+      }
+    ],
     "statusHistory": [
+      {
+        "id": "hist_br7j2fm",
+        "taskId": "task_x8syzvwr5",
+        "actorId": "usr_admin_01",
+        "actorName": "System Administrator",
+        "previousStatus": "SUBMITTED",
+        "newStatus": "APPROVED",
+        "remark": "super good ",
+        "createdAt": "2026-09-25T11:14:10.345Z"
+      },
+      {
+        "id": "hist_5rb0y83",
+        "taskId": "task_x8syzvwr5",
+        "actorId": "usr_admin_01",
+        "actorName": "System Administrator",
+        "previousStatus": "IN_PROGRESS",
+        "newStatus": "SUBMITTED",
+        "remark": "Uploaded Creative Version 1.0 (creative_version_v1.png)",
+        "createdAt": "2026-09-25T11:13:26.308Z"
+      },
       {
         "id": "hist_lin4dgn",
         "taskId": "task_x8syzvwr5",
@@ -44,7 +78,7 @@
       }
     ],
     "comments": [],
-    "reviewerFeedback": "Designer started active canvas work."
+    "reviewerFeedback": "super good "
   },
   {
     "id": "task_p28qxynh7",
