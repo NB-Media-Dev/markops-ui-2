@@ -2,6 +2,8 @@ import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { safeFetch } from '../../core/utils/api-url.utils';
 
+import { RouterModule } from '@angular/router';
+
 export interface AuditLogEntry {
   id: string;
   actorId: string | null;
@@ -19,7 +21,7 @@ export interface AuditLogEntry {
 @Component({
   selector: 'app-audit-logs',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './audit-logs.component.html',
   styleUrl: './audit-logs.component.scss',
 })
@@ -28,6 +30,10 @@ export class AuditLogsComponent implements OnInit {
   readonly isLoading = signal<boolean>(true);
   readonly searchQuery = signal<string>('');
   readonly actionFilter = signal<string>('ALL');
+
+  readonly totalLogsCount = computed(() => this.logs().length);
+  readonly loginEventsCount = computed(() => this.logs().filter((l) => l.action.includes('LOGIN')).length);
+  readonly securityEditsCount = computed(() => this.logs().filter((l) => l.action.includes('STATUS') || l.action.includes('UPDATED') || l.action.includes('CREATED')).length);
 
   readonly filteredLogs = computed(() => {
     const list = this.logs();

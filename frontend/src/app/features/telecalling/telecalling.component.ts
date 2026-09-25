@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal, computed, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { LeadTelecallingService, LeadItem, CallActivityItem } from '../../core/services/lead-telecalling.service';
 import { UserManagementService } from '../../core/services/user-management.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -8,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-telecalling',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './telecalling.component.html',
   styleUrl: './telecalling.component.scss',
 })

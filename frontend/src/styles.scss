@@ -18,24 +18,24 @@
   --mo-forest-50:  #EBF6F0;
 
   /* Warm Cream & Sand Neutrals */
-  --mo-bg-body:    #F7F5EE; /* Warm Linen/Cream Canvas */
-  --mo-bg-card:    #FFFFFF;
-  --mo-sand-50:    #FAF8F4;
-  --mo-sand-100:   #F3EFE8; /* Table header & neutral pills */
-  --mo-sand-200:   #EAE4D8; /* Subtle borders */
-  --mo-sand-300:   #DDD5C6;
-  --mo-sand-400:   #BBB19F;
-  --mo-sand-500:   #8C8474;
-  --mo-sand-600:   #635D52;
-  --mo-sand-700:   #48433A;
-  --mo-sand-800:   #2E2A24;
-  --mo-sand-900:   #1A1713;
+  --mo-bg-body:    #FAF8F3; /* Warm ivory/cream background from reference design */
+  --mo-bg-card:    #FFFFFF; /* Pure crisp white cards */
+  --mo-sand-50:    #F8FAFC;
+  --mo-sand-100:   #E2E8F0; /* Table header & neutral pills */
+  --mo-sand-200:   #CBD5E1; /* Clean borders */
+  --mo-sand-300:   #CBD5E1;
+  --mo-sand-400:   #94A3B8;
+  --mo-sand-500:   #64748B;
+  --mo-sand-600:   #475569;
+  --mo-sand-700:   #334155;
+  --mo-sand-800:   #1E293B;
+  --mo-sand-900:   #0F172A;
 
   /* Text Colors */
-  --mo-text-main:   #181E1A;
-  --mo-text-muted:  #707872;
-  --mo-text-subtle: #949C96;
-  --mo-text-label:  #5A645D;
+  --mo-text-main:   #0F172A;
+  --mo-text-muted:  #64748B;
+  --mo-text-subtle: #94A3B8;
+  --mo-text-label:  #475569;
 
   /* Status Colors */
   --mo-status-green-bg: #E1F4EB;
@@ -59,7 +59,7 @@
   --mo-status-purple-border: #DDCFF8;
 
   /* Typography */
-  --mo-font-serif: 'Newsreader', 'Lora', Georgia, 'Times New Roman', serif;
+  --mo-font-serif: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --mo-font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --mo-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 
@@ -70,12 +70,12 @@
   --mo-radius-xl: 18px;
   --mo-radius-pill: 9999px;
 
-  --mo-border-color: #EDE8DE;
-  --mo-border-light: #F3EFE8;
+  --mo-border-color: #CBD5E1;
+  --mo-border-light: #E2E8F0;
 
   /* Shadows */
-  --mo-shadow-xs: 0 1px 2px rgba(27, 67, 50, 0.04);
-  --mo-shadow-sm: 0 2px 5px rgba(27, 67, 50, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --mo-shadow-xs: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --mo-shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
   --mo-shadow-md: 0 4px 12px rgba(27, 67, 50, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
   --mo-shadow-lg: 0 12px 28px rgba(27, 67, 50, 0.08), 0 4px 10px rgba(0, 0, 0, 0.03);
 }
@@ -84,6 +84,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: var(--mo-font-sans);
 }
 
 html, body {
@@ -129,15 +130,15 @@ html, body {
 .page-header, .mo-top-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   flex-wrap: wrap;
   gap: 1.25rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 0.4rem;
 
   .header-titles-group {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.1rem;
   }
 
   .back-to-link, .back-link {
@@ -148,7 +149,7 @@ html, body {
     font-weight: 600;
     color: var(--mo-text-main);
     text-decoration: none;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.15rem;
     transition: color 0.15s ease, transform 0.15s ease;
 
     &:hover {
@@ -168,15 +169,15 @@ html, body {
     background: transparent;
     border: none;
     padding: 0;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.1rem;
   }
 
   h1,h2, .header-page-title {
-    font-family: var(--mo-font-serif);
-    font-size: 2.15rem;
-    font-weight: 600;
+    font-family: var(--mo-font-sans);
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--mo-text-main);
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     margin: 0;
     line-height: 1.2;
   }
@@ -184,7 +185,7 @@ html, body {
   .subtitle {
     font-size: 0.875rem;
     color: var(--mo-text-muted);
-    margin-top: 0.25rem;
+    margin-top: 0.1rem;
   }
 
   .header-actions {
@@ -236,7 +237,7 @@ html, body {
   font-family: var(--mo-font-sans);
   font-size: 0.8125rem;
   font-weight: 600;
-  padding: 0.55rem 1.25rem;
+  padding: 0.45rem 1rem;
   border-radius: var(--mo-radius-pill);
   border: 1px solid transparent;
   cursor: pointer;
@@ -315,7 +316,7 @@ html, body {
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
 
   .pill-tab, .works-tab-btn {
     display: inline-flex;
@@ -398,7 +399,7 @@ label {
   font-size: 0.78125rem;
   font-weight: 600;
   color: var(--mo-text-main);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.15rem;
 }
 
 .form-group {
@@ -427,47 +428,118 @@ label {
 /* Reference Metric KPI Card Grid */
 .kpi-grid, .reference-kpi-grid, .designers-kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.25rem;
-  margin-bottom: 1.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
 
   .kpi-card, .reference-kpi-card, .designer-kpi-card {
     background-color: #FFFFFF;
-    border: 1px solid var(--mo-border-color);
+    border: 1.5px solid var(--mo-border-color);
     border-radius: var(--mo-radius-lg);
-    box-shadow: var(--mo-shadow-xs);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+    padding: 0.75rem 1rem;
+    display: grid;
+    grid-template-areas:
+      "icon body badge"
+      "footer footer footer";
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    row-gap: 0.45rem;
+    column-gap: 0.75rem;
+    min-height: auto;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
 
     &:hover {
-      box-shadow: var(--mo-shadow-sm);
-      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      transform: translateY(-2px);
+      border-color: #CBD5E1;
     }
 
-    .kpi-title, .kpi-label {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--mo-text-label);
-      margin-bottom: 0.35rem;
+    .kpi-top-row {
+      grid-area: icon;
+      display: contents;
+
+      .kpi-squircle-icon {
+        grid-area: icon;
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+
+        .material-symbols-outlined {
+          font-size: 20px;
+        }
+      }
+
+      .kpi-pill-badge {
+        grid-area: badge;
+        align-self: flex-start;
+        justify-self: end;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 0.18rem 0.55rem;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
     }
 
-    .kpi-value, .kpi-num {
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--mo-text-main);
-      line-height: 1.1;
-      margin: 0.2rem 0;
+    .kpi-body {
+      grid-area: body;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.05rem;
+      margin: 0;
+      min-width: 0;
+
+      .kpi-title, .kpi-label {
+        font-size: 0.62rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #64748B;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .kpi-value, .kpi-num {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #0F172A;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin: 0;
+      }
     }
 
-    .kpi-sub {
-      font-size: 0.75rem;
-      color: var(--mo-text-muted);
-      margin-top: 0.25rem;
+    .kpi-footer-row, .kpi-footer-progress {
+      grid-area: footer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.35rem;
+      border-top: 1px solid #F1F5F9;
+      margin-top: 0;
+      width: 100%;
+
+      .kpi-footer-text, .kpi-sub {
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: #64748B;
+        white-space: nowrap;
+      }
+
+      .kpi-footer-pill {
+        font-size: 0.62rem;
+        font-weight: 700;
+        padding: 0.15rem 0.45rem;
+        border-radius: 6px;
+        white-space: nowrap;
+      }
     }
   }
 }
@@ -625,9 +697,9 @@ label {
   overflow-y: auto;
 
   h2 {
-    font-family: var(--mo-font-serif);
-    font-size: 1.45rem;
-    font-weight: 600;
+    font-family: var(--mo-font-sans);
+    font-size: 1.35rem;
+    font-weight: 700;
     color: var(--mo-text-main);
     margin-bottom: 0.5rem;
   }
@@ -710,7 +782,7 @@ label {
   border: 1px solid var(--mo-border-color);
   border-radius: var(--mo-radius-lg);
   padding: 0.875rem 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

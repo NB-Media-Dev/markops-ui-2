@@ -11,10 +11,12 @@ import { FIXED_PACKAGES } from '../package-works/package-works.component';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-designer-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './designer-dashboard.component.html',
   styleUrl: './designer-dashboard.component.scss',
 })
@@ -246,6 +248,7 @@ export class DesignerDashboardComponent implements OnInit {
   readonly totalAllTasks = computed(() => this.designersSummaryList().reduce((acc, d) => acc + d.totalCount, 0));
   readonly totalAllPending = computed(() => this.designersSummaryList().reduce((acc, d) => acc + d.pendingCount, 0));
   readonly totalAllCompleted = computed(() => this.designersSummaryList().reduce((acc, d) => acc + d.completedCount, 0));
+  readonly totalBdmTasks = computed(() => this.taskService.tasks().filter((t) => t.creatorRole === 'BDM').length);
 
   viewDesignerTasks(designerId: string | number): void {
     this.selectedDesignerId.set(String(designerId));

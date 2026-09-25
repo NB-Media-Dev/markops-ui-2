@@ -1,13 +1,14 @@
 import { Component, inject, OnInit, signal, computed, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { CampaignService, AdItem, CampaignItem } from '../../core/services/campaign.service';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-ads',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './ads.component.html',
   styleUrl: './ads.component.scss',
 })

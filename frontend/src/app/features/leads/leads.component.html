@@ -1,19 +1,24 @@
-<div class="leads-page">
+<div class="leads-page" [class.embedded-view]="embedded">
   <header class="page-header" *ngIf="!embedded">
-    <div>
-      <h1>Lead Management</h1>
-      <p class="subtitle" *ngIf="!isTelecaller()">Upload Excel leads, auto-assign equally to telecallers, and track call outcomes</p>
-      <p class="subtitle" *ngIf="isTelecaller()">View and track your assigned lead queue and pipeline status</p>
+    <div class="header-titles-group">
+      <a routerLink="/dashboard" class="back-pill-link">
+        <span class="arrow-char">←</span>
+        <span>Back to Dashboard</span>
+      </a>
+      <div class="page-meta-track">LEAD GENERATION & PIPELINE ASSIGNMENT</div>
+      <h1 class="page-heading">Lead Management</h1>
+      <p class="page-sub" *ngIf="!isTelecaller()">Upload Excel leads, auto-assign equally to telecallers, and track call outcomes</p>
+      <p class="page-sub" *ngIf="isTelecaller()">View and track your assigned lead queue and pipeline status</p>
     </div>
     <div class="header-actions">
       <ng-container *ngIf="canUploadLeads()">
-        <button class="btn btn-emerald btn-lg shadow-sm" (click)="openExcelModal()">
-          <span class="material-symbols-outlined">upload_file</span>
-          Upload Excel
+        <button class="btn-action-primary" (click)="openExcelModal()">
+          <span class="material-symbols-outlined icon-glow">upload_file</span>
+          <span>Upload Excel</span>
         </button>
-        <button class="btn btn-outline" (click)="openModal()">
-          <span class="material-symbols-outlined">person_add</span>
-          Add Lead
+        <button class="btn-action-secondary" (click)="openModal()">
+          <span class="material-symbols-outlined fs-18">person_add</span>
+          <span>Add Lead</span>
         </button>
       </ng-container>
       <div *ngIf="!canUploadLeads() && !isTelecaller()" class="role-restricted-badge">
@@ -24,53 +29,41 @@
   </header>
 
   <!-- Embedded Toolbar Header (Visible inside Package Works) -->
-  <div class="embedded-header-bar mb-3" *ngIf="embedded">
-    <div class="header-info">
-      <h3 *ngIf="!isTelecaller()">
-        <span class="material-symbols-outlined text-teal fs-20">groups</span>
-        Leads Workspace
-      </h3>
-      <h3 *ngIf="isTelecaller()">
-        <span class="material-symbols-outlined text-teal fs-20">groups</span>
-        Assigned Leads Workspace
-      </h3>
+  <div class="embedded-header-card" *ngIf="embedded">
+    <div class="embedded-info">
+      <div class="embedded-squircle-icon">
+        <span class="material-symbols-outlined">groups</span>
       </div>
+      <div>
+        <h3 class="embedded-title">{{ isTelecaller() ? 'Assigned Leads Workspace' : 'Leads Workspace' }}</h3>
+        <p class="embedded-sub">Manage lead allocations, contact information, and pipeline progress</p>
+      </div>
+    </div>
     <div class="header-actions">
       <ng-container *ngIf="canUploadLeads()">
-        <button class="btn btn-emerald shadow-sm" (click)="openExcelModal()">
-          <span class="material-symbols-outlined fs-18">upload_file</span>
-          Upload Excel
+        <button class="btn-action-primary btn-sm" (click)="openExcelModal()">
+          <span class="material-symbols-outlined fs-16 icon-glow">upload_file</span>
+          <span>Upload Excel</span>
         </button>
-        <button class="btn btn-outline" (click)="openModal()">
-          <span class="material-symbols-outlined fs-18">person_add</span>
-          Add Lead
+        <button class="btn-action-secondary btn-sm" (click)="openModal()">
+          <span class="material-symbols-outlined fs-16">person_add</span>
+          <span>Add Lead</span>
         </button>
       </ng-container>
       <div *ngIf="!canUploadLeads() && !isTelecaller()" class="role-restricted-badge">
         <span class="material-symbols-outlined text-amber fs-16">lock</span>
-        <span>Upload Restricted to Digital Marketing Role</span>
+        <span>Upload Restricted to Digital Marketing</span>
       </div>
     </div>
   </div>
 
-  <!-- Section Tabs -->
-  <div class="section-tabs">
-    <button
-      class="tab-btn"
-      [class.active]="activeTab() === 'LEADS_LIST'"
-      (click)="activeTab.set('LEADS_LIST')">
-      <span class="material-symbols-outlined">view_list</span>
-      {{ isTelecaller() ? 'My Assigned Leads' : 'All Leads' }} ({{ myLeadsList().length }})
-    </button>
-  </div>
-
   <!-- TAB 1: ALL LEADS LIST VIEW -->
   <ng-container *ngIf="activeTab() === 'LEADS_LIST'">
-    <!-- Filter Bar -->
-    <div class="filter-bar">
+    <!-- Filter & Toolbar Card -->
+    <div class="toolbar-card">
       <div class="filter-group">
-        <label>Status:</label>
-        <select [ngModel]="filterStatus()" (ngModelChange)="filterStatus.set($event)">
+        <label class="filter-label">Status:</label>
+        <select [ngModel]="filterStatus()" (ngModelChange)="filterStatus.set($event)" class="filter-select">
           <option value="ALL">All Statuses</option>
           <option value="NEW">New</option>
           <option value="ASSIGNED">Assigned</option>
@@ -81,13 +74,31 @@
           <option value="CONVERTED">Converted</option>
         </select>
       </div>
-      <div class="quick-stats">
-        <span class="stat-pill"><strong class="text-blue">{{ myLeadsList().length }}</strong> {{ isTelecaller() ? 'My Assigned Leads' : 'Total Leads' }}</span>
-        <span class="stat-pill" *ngIf="!isTelecaller()"><strong class="text-purple">{{ activeTelecallers().length }}</strong> Telecallers Active</span>
+
+      <div class="quick-stats-group">
+        <span class="stat-badge-pill">
+          <strong class="text-indigo">{{ myLeadsList().length }}</strong> {{ isTelecaller() ? 'My Assigned Leads' : 'Total Leads' }}
+        </span>
+        <span class="stat-badge-pill" *ngIf="!isTelecaller()">
+          <strong class="text-purple">{{ activeTelecallers().length }}</strong> Active Telecallers
+        </span>
       </div>
     </div>
 
-    <div class="table-card">
+    <!-- Leads Data Table Card -->
+    <div class="table-card card-leads-perf">
+      <div class="card-title-bar">
+        <div class="title-with-badge">
+          <div class="title-icon-squircle">
+            <span class="material-symbols-outlined">groups</span>
+          </div>
+          <div>
+            <h3>{{ isTelecaller() ? 'My Assigned Leads' : 'Leads Directory' }}</h3>
+            <span class="table-sub-meta">{{ filteredLeads.length }} leads in active queue</span>
+          </div>
+        </div>
+      </div>
+
       <div class="table-responsive">
         <table class="data-table">
           <thead>
@@ -98,46 +109,62 @@
               <th>Campaign</th>
               <th>Status</th>
               <th>Assigned Telecaller</th>
-              <th *ngIf="canUploadLeads()">Actions</th>
+              <th *ngIf="canUploadLeads()" class="text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let lead of filteredLeads">
-              <td class="font-bold">{{ lead.firstName }} {{ lead.lastName }}</td>
+            <tr *ngFor="let lead of filteredLeads" class="lead-row">
+              <td>
+                <div class="lead-name-cell">
+                  <span class="font-bold lead-fullname">{{ lead.firstName }} {{ lead.lastName }}</span>
+                </div>
+              </td>
               <td>
                 <div class="contact-box">
-                  <span>{{ lead.phone }}</span>
-                  <span class="text-subtle" *ngIf="lead.email">{{ lead.email }}</span>
+                  <span class="contact-phone">{{ lead.phone }}</span>
+                  <span class="contact-email" *ngIf="lead.email">{{ lead.email }}</span>
                 </div>
               </td>
-              <td><span class="source-badge">{{ lead.source }}</span></td>
-              <td>{{ lead.campaignName }}</td>
+              <td><span class="source-tag">{{ lead.source }}</span></td>
+              <td><span class="campaign-name-txt">{{ lead.campaignName || 'General Campaign' }}</span></td>
               <td>
-                <span class="badge" [ngClass]="{
-                  'badge-blue': lead.status === 'NEW',
-                  'badge-amber': lead.status === 'ASSIGNED' || lead.status === 'CONTACTED',
-                  'badge-purple': lead.status === 'INTERESTED',
-                  'badge-danger': lead.status === 'NOT_INTERESTED',
-                  'badge-green': lead.status === 'QUALIFIED' || lead.status === 'CONVERTED'
-                }">{{ lead.status }}</span>
+                <span class="status-pill" [ngClass]="{
+                  'status-pill-blue': lead.status === 'NEW',
+                  'status-pill-planning': lead.status === 'ASSIGNED' || lead.status === 'CONTACTED',
+                  'status-pill-purple': lead.status === 'INTERESTED',
+                  'status-pill-danger': lead.status === 'NOT_INTERESTED',
+                  'status-pill-active': lead.status === 'QUALIFIED' || lead.status === 'CONVERTED'
+                }">
+                  <span class="pill-glow-dot">●</span> {{ lead.status }}
+                </span>
               </td>
               <td>
-                <div class="telecaller-tag" *ngIf="lead.assigneeName">
-                  <span class="material-symbols-outlined text-teal">headset_mic</span>
+                <div class="telecaller-tag-chip" *ngIf="lead.assigneeName">
+                  <span class="material-symbols-outlined icon-chip">headset_mic</span>
                   <span>{{ lead.assigneeName }}</span>
                 </div>
-                <span class="text-subtle" *ngIf="!lead.assigneeName">Unassigned</span>
+                <span class="unassigned-txt" *ngIf="!lead.assigneeName">Unassigned</span>
               </td>
-              <td *ngIf="canUploadLeads()">
-                <button class="btn btn-sm btn-outline" (click)="assignLead(lead)">
-                  <span class="material-symbols-outlined">assignment_ind</span>
-                  Reassign
+              <td *ngIf="canUploadLeads()" class="text-right">
+                <button class="btn-action-secondary btn-sm" (click)="assignLead(lead)">
+                  <span class="material-symbols-outlined fs-16">assignment_ind</span>
+                  <span>Reassign</span>
                 </button>
               </td>
             </tr>
             <tr *ngIf="filteredLeads.length === 0">
-              <td [attr.colspan]="canUploadLeads() ? 7 : 6" class="text-center py-4 text-subtle">
-                {{ isTelecaller() ? 'No leads assigned to you yet.' : 'No leads found. Click Upload Excel above to import leads.' }}
+              <td [attr.colspan]="canUploadLeads() ? 7 : 6" class="empty-state-cell">
+                <div class="empty-state-box">
+                  <div class="empty-icon-squircle">
+                    <span class="material-symbols-outlined">contacts</span>
+                  </div>
+                  <h4 class="empty-title">{{ isTelecaller() ? 'No leads assigned to you yet' : 'No leads found' }}</h4>
+                  <p class="empty-subtitle">{{ isTelecaller() ? 'New leads assigned by Digital Marketing will appear here.' : 'Import leads using Excel upload or add a lead manually.' }}</p>
+                  <button class="btn-action-primary btn-sm" *ngIf="canUploadLeads()" (click)="openExcelModal()">
+                    <span class="material-symbols-outlined icon-glow">upload_file</span>
+                    <span>Upload Excel</span>
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -152,39 +179,67 @@
       <!-- High Level KPIs -->
       <div class="kpi-grid">
         <div class="kpi-card border-blue">
-          <div class="kpi-header">
-            <span class="kpi-title">Total Leads</span>
-            <span class="material-symbols-outlined icon-blue">groups</span>
+          <div class="kpi-top-row">
+            <div class="kpi-squircle-icon icon-blue">
+              <span class="material-symbols-outlined">groups</span>
+            </div>
           </div>
-          <div class="kpi-value">{{ sum.totalLeads }}</div>
-          <div class="kpi-subtitle">{{ sum.assignedLeads }} Assigned | {{ sum.unassignedLeads }} Unassigned</div>
+          <div class="kpi-body">
+            <span class="kpi-title">Total Leads</span>
+            <div class="kpi-value">{{ sum.totalLeads }}</div>
+          </div>
+          <div class="kpi-footer-row">
+            <span class="kpi-footer-text">{{ sum.assignedLeads }} Assigned</span>
+            <span class="kpi-footer-pill pill-blue">{{ sum.unassignedLeads }} Unassigned</span>
+          </div>
         </div>
 
         <div class="kpi-card border-emerald">
-          <div class="kpi-header">
-            <span class="kpi-title">Total Calls</span>
-            <span class="material-symbols-outlined icon-emerald">call</span>
+          <div class="kpi-top-row">
+            <div class="kpi-squircle-icon icon-emerald">
+              <span class="material-symbols-outlined">call</span>
+            </div>
           </div>
-          <div class="kpi-value">{{ sum.totalCallsLogged }}</div>
-          <div class="kpi-subtitle">Logged across telecallers</div>
+          <div class="kpi-body">
+            <span class="kpi-title">Total Calls</span>
+            <div class="kpi-value">{{ sum.totalCallsLogged }}</div>
+          </div>
+          <div class="kpi-footer-row">
+            <span class="kpi-footer-text">Telecaller Calls</span>
+            <span class="kpi-footer-pill pill-emerald">Active Log</span>
+          </div>
         </div>
 
         <div class="kpi-card border-purple">
-          <div class="kpi-header">
-            <span class="kpi-title">Interested Leads</span>
-            <span class="material-symbols-outlined icon-purple">thumb_up</span>
+          <div class="kpi-top-row">
+            <div class="kpi-squircle-icon icon-purple">
+              <span class="material-symbols-outlined">thumb_up</span>
+            </div>
           </div>
-          <div class="kpi-value">{{ sum.statusBreakdown['INTERESTED'] || 0 }}</div>
-          <div class="kpi-subtitle">{{ sum.statusBreakdown['QUALIFIED'] || 0 }} Qualified</div>
+          <div class="kpi-body">
+            <span class="kpi-title">Interested Leads</span>
+            <div class="kpi-value">{{ sum.statusBreakdown['INTERESTED'] || 0 }}</div>
+          </div>
+          <div class="kpi-footer-row">
+            <span class="kpi-footer-text">{{ sum.statusBreakdown['QUALIFIED'] || 0 }} Qualified</span>
+            <span class="kpi-footer-pill pill-purple">High Intent</span>
+          </div>
         </div>
 
         <div class="kpi-card border-amber">
-          <div class="kpi-header">
-            <span class="kpi-title">Telecallers</span>
-            <span class="material-symbols-outlined icon-amber">headset_mic</span>
+          <div class="kpi-top-row">
+            <div class="kpi-squircle-icon icon-amber">
+              <span class="material-symbols-outlined">headset_mic</span>
+            </div>
           </div>
-          <div class="kpi-value">{{ sum.telecallerMetrics.length }}</div>
-          <div class="kpi-subtitle">Equal distribution active</div>
+          <div class="kpi-body">
+            <span class="kpi-title">Telecallers</span>
+            <div class="kpi-value">{{ sum.telecallerMetrics.length }}</div>
+          </div>
+          <div class="kpi-footer-row">
+            <span class="kpi-footer-text">Active Queue</span>
+            <span class="kpi-footer-pill pill-amber">Equal Distribution</span>
+          </div>
         </div>
       </div>
 

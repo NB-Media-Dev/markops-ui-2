@@ -1,13 +1,14 @@
 import { Component, inject, OnInit, signal, computed, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { CampaignService, CampaignItem } from '../../core/services/campaign.service';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-campaigns',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './campaigns.component.html',
   styleUrl: './campaigns.component.scss',
 })
@@ -50,8 +51,16 @@ export class CampaignsComponent implements OnInit {
     this.filteredCampaigns.reduce((sum, c) => sum + (c.spend || 0), 0)
   );
 
+  readonly totalBudget = computed(() =>
+    this.filteredCampaigns.reduce((sum, c) => sum + (c.budget || 0), 0)
+  );
+
   readonly totalLeads = computed(() =>
     this.filteredCampaigns.reduce((sum, c) => sum + (c.leadsCount || 0), 0)
+  );
+
+  readonly totalQualifiedLeads = computed(() =>
+    this.filteredCampaigns.reduce((sum, c) => sum + (c.qualifiedLeads || 0), 0)
   );
 
   readonly totalConversions = computed(() =>
@@ -62,6 +71,38 @@ export class CampaignsComponent implements OnInit {
     const leads = this.totalLeads();
     return leads > 0 ? (this.totalSpend() / leads).toFixed(2) : '0.00';
   });
+
+  readonly overallConvRate = computed(() => {
+    const leads = this.totalLeads();
+    const conv = this.totalConversions();
+    return leads > 0 ? ((conv / leads) * 100).toFixed(1) : '0.0';
+  });
+
+  readonly budgetUsedPercent = computed(() => {
+    const b = this.totalBudget();
+    const s = this.totalSpend();
+    return b > 0 ? Math.min(100, Math.round((s / b) * 100)) : 0;
+  });
+
+  readonly activeCampaignsCount = computed(() =>
+    this.filteredCampaigns.filter((c) => c.status === 'ACTIVE').length
+  );
+
+  readonly planningCampaignsCount = computed(() =>
+    this.filteredCampaigns.filter((c) => c.status === 'PLANNING').length
+  );
+
+  readonly pausedCampaignsCount = computed(() =>
+    this.filteredCampaigns.filter((c) => c.status === 'PAUSED').length
+  );
+
+  readonly completedCampaignsCount = computed(() =>
+    this.filteredCampaigns.filter((c) => c.status === 'COMPLETED').length
+  );
+
+  setFilterStatus(st: string) {
+    this.filterStatus.set(st);
+  }
 
   ngOnInit() {
     this.campaignService.loadCampaigns().subscribe();

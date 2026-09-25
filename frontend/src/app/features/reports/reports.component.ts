@@ -2,6 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
+import { RouterModule } from '@angular/router';
+
 export interface ReportSummary {
   totalRevenue: number;
   totalLeads: number;
@@ -14,7 +16,7 @@ export interface ReportSummary {
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss',
 })

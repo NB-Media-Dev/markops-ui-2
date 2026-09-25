@@ -1,18 +1,24 @@
 <div class="designer-dashboard">
   <!-- Page Header -->
   <header class="page-header" *ngIf="!embedded">
-    <div>
-      <div class="role-badge-row">
+    <div class="header-titles-group">
+      <a routerLink="/dashboard" class="back-pill-link">
+        <span class="arrow-char">←</span>
+        <span>Back to Dashboard</span>
+      </a>
+      <div class="page-meta-track">CREATIVE OPERATIONS & WORKFLOW</div>
+      <div class="title-with-role">
+        <h1 class="page-heading">Tasks & Designer Assignments</h1>
         <span class="role-chip" [class.chip-manager]="isManager()" [class.chip-designer]="isDesigner()" [class.chip-bdm]="isBDM()">
           {{ authService.currentUser()?.fullName || 'User' }} • {{ authService.currentUser()?.role }}
         </span>
       </div>
-      <h1>Tasks</h1>
+      <p class="page-sub">Assign creative deliverables, track task queues, review design assets, and coordinate BDM workflows</p>
     </div>
     <div class="header-actions">
-      <button class="btn btn-secondary" (click)="taskService.loadTasks(); userService.loadUsersFromDatabase()">
-        <span class="material-symbols-outlined">refresh</span>
-        Sync Tasks
+      <button class="btn-obsidian-sync" (click)="taskService.loadTasks(); userService.loadUsersFromDatabase()">
+        <span class="material-symbols-outlined btn-gold-icon">refresh</span>
+        <span>Sync Tasks</span>
       </button>
     </div>
   </header>
@@ -21,26 +27,99 @@
   <!-- VIEW 1: DESIGNERS LIST IN TABLE FORMAT (when !selectedDesignerId() && !isDesigner()) -->
   <!-- ========================================================================= -->
   <ng-container *ngIf="!selectedDesignerId() && !isDesigner()">
+    <!-- 4 TOP KPI SUMMARY CARDS (Medium-Sized Luxury Design) -->
+    <section class="kpi-grid">
+      <div class="kpi-card card-designers">
+        <div class="kpi-top-row">
+          <div class="kpi-squircle-icon icon-indigo">
+            <span class="material-symbols-outlined">group</span>
+          </div>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-title">ACTIVE DESIGNERS</span>
+          <div class="kpi-value">{{ totalAllDesigners() }}</div>
+        </div>
+        <div class="kpi-footer-row">
+          <span class="kpi-footer-text">Studio Capacity</span>
+          <span class="kpi-footer-pill pill-indigo">Available</span>
+        </div>
+      </div>
+
+      <div class="kpi-card card-totaltasks">
+        <div class="kpi-top-row">
+          <div class="kpi-squircle-icon icon-amber">
+            <span class="material-symbols-outlined">folder_open</span>
+          </div>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-title">TOTAL ASSIGNED TASKS</span>
+          <div class="kpi-value">{{ totalAllTasks() }}</div>
+        </div>
+        <div class="kpi-footer-row">
+          <span class="kpi-footer-text">Production Backlog</span>
+          <span class="kpi-footer-pill pill-amber">Active Queue</span>
+        </div>
+      </div>
+
+      <div class="kpi-card card-pending">
+        <div class="kpi-top-row">
+          <div class="kpi-squircle-icon icon-blue">
+            <span class="material-symbols-outlined">pending_actions</span>
+          </div>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-title">PENDING & IN-PROGRESS</span>
+          <div class="kpi-value">{{ totalAllPending() }}</div>
+        </div>
+        <div class="kpi-footer-row">
+          <span class="kpi-footer-text">Queue Workload</span>
+          <span class="kpi-footer-pill pill-blue">Underway</span>
+        </div>
+      </div>
+
+      <div class="kpi-card card-completed">
+        <div class="kpi-top-row">
+          <div class="kpi-squircle-icon icon-emerald">
+            <span class="material-symbols-outlined">task_alt</span>
+          </div>
+        </div>
+        <div class="kpi-body">
+          <span class="kpi-title">COMPLETED CREATIVES</span>
+          <div class="kpi-value">{{ totalAllCompleted() }}</div>
+        </div>
+        <div class="kpi-footer-row">
+          <span class="kpi-footer-text">Approved Deliveries</span>
+          <span class="kpi-footer-pill pill-emerald">Completed</span>
+        </div>
+      </div>
+    </section>
+
     <!-- Designers Table Card Container -->
-    <div class="designers-table-container">
-      <div class="table-toolbar">
-        <div class="toolbar-title-box">
-          <h2 class="card-main-title">Designers</h2>
-          <p class="card-main-sub" *ngIf="packageFilter">Assign {{ packageFilter }} tasks to a designer</p>
-          <p class="card-main-sub" *ngIf="!packageFilter">Assign tasks to a designer or view task queues</p>
+    <div class="table-card designers-table-card">
+      <div class="card-title-bar">
+        <div class="title-with-badge">
+          <div class="title-icon-squircle">
+            <span class="material-symbols-outlined">palette</span>
+          </div>
+          <div>
+            <h3>Creative Designers Directory</h3>
+            <span class="table-sub-meta" *ngIf="packageFilter">Assign {{ packageFilter }} tasks to a designer</span>
+            <span class="table-sub-meta" *ngIf="!packageFilter">Select a designer to manage task queues or assign new creative tasks</span>
+          </div>
         </div>
         <div class="search-box">
+          <span class="material-symbols-outlined search-icon">search</span>
           <input
             type="text"
-            placeholder="Search designers..."
+            placeholder="Search designers by name or email..."
             [ngModel]="designerSearchQuery()"
             (input)="onDesignerSearch($event)"
           />
         </div>
       </div>
 
-      <div class="table-responsive-wrapper">
-        <table class="designers-data-table">
+      <div class="table-responsive">
+        <table class="data-table">
           <thead>
             <tr>
               <th>DESIGNER</th>
@@ -51,7 +130,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let designer of filteredDesigners()" class="designer-table-row clickable-row" (click)="viewDesignerTasks(designer.id)">
+            <tr *ngFor="let designer of filteredDesigners()" class="clickable-row" (click)="viewDesignerTasks(designer.id)">
               <!-- Designer Profile -->
               <td class="col-designer-profile">
                 <div class="designer-user-cell">
@@ -90,7 +169,7 @@
               <td class="text-right col-actions" (click)="$event.stopPropagation()">
                 <div class="action-btn-group">
                   <button
-                    class="btn btn-secondary btn-sm btn-view-tasks"
+                    class="btn-action-view"
                     (click)="viewDesignerTasks(designer.id)"
                     title="View all tasks for {{ designer.name }}"
                   >
@@ -99,7 +178,7 @@
                   </button>
                   <button
                     *ngIf="canCreateTask()"
-                    class="btn btn-primary btn-sm btn-assign-task"
+                    class="btn-action-assign"
                     (click)="openCreateTaskModal(designer.id)"
                     title="Assign a new task to {{ designer.name }}"
                   >
@@ -111,10 +190,13 @@
             </tr>
 
             <tr *ngIf="filteredDesigners().length === 0">
-              <td colspan="5" class="empty-table-cell">
-                <div class="empty-table-state">
-                  <h4>No Designers Found</h4>
-                  <p>No designers match your search query "{{ designerSearchQuery() }}".</p>
+              <td colspan="5" class="empty-state-cell">
+                <div class="empty-state-box">
+                  <div class="empty-icon-squircle">
+                    <span class="material-symbols-outlined">person_search</span>
+                  </div>
+                  <h4 class="empty-title">No Designers Found</h4>
+                  <p class="empty-subtitle">No designers match your search query "{{ designerSearchQuery() }}".</p>
                 </div>
               </td>
             </tr>

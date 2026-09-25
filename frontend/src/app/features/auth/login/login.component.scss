@@ -78,7 +78,7 @@
   font-weight: 800;
   letter-spacing: 0.06em;
   color: #FFFFFF;
-  font-family: var(--mo-font-serif, serif);
+  font-family: var(--mo-font-sans, sans-serif);
 }
 
 .mo-environment-badge {
@@ -103,7 +103,7 @@
   color: #FFFFFF;
   margin-bottom: 1rem;
   letter-spacing: -0.015em;
-  font-family: var(--mo-font-serif, serif);
+  font-family: var(--mo-font-sans, sans-serif);
 }
 
 .mo-banner-subtext {
@@ -221,12 +221,12 @@
 }
 
 .mo-card-title {
-  font-family: var(--mo-font-serif, serif);
+  font-family: var(--mo-font-sans, sans-serif);
   font-size: 1.75rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--mo-text-main, #181E1A);
   margin-bottom: 0.35rem;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 
 .mo-card-subtitle {

@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, computed, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { TelecallerTargetService, TelecallerTarget, TargetProgressStatus } from '../../core/services/telecaller-target.service';
 import { LeadTelecallingService } from '../../core/services/lead-telecalling.service';
 import { UserManagementService } from '../../core/services/user-management.service';
@@ -10,7 +11,7 @@ import { NotificationService } from '../../core/services/notification.service';
 @Component({
   selector: 'app-targets',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './targets.component.html',
   styleUrl: './targets.component.scss',
 })

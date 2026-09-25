@@ -2,19 +2,12 @@
   <!-- Page Header -->
   <header class="page-header">
     <div class="header-titles-group">
-      <div class="role-label-meta">
-      </div>
-      <h2 class="page-header">{{ userRole() }} DASHBOARD</h2>
+      <div class="role-label-meta">{{ userRole() }} DASHBOARD</div>
       <h1>{{ greeting() }}</h1>
     </div>
     <div class="header-actions">
       <!-- Role-tailored action buttons -->
-      <a routerLink="/users-roles" class="btn btn-primary" *ngIf="userRole() === 'ADMINISTRATOR'">
-        Manage Users
-      </a>
-      <a routerLink="/leads" class="btn btn-primary" *ngIf="userRole() === 'DIGITAL_MARKETING'">
-        Upload & Assign Leads
-      </a>
+  
       <a routerLink="/package-works" class="btn btn-secondary" *ngIf="userRole() === 'DESIGNER'">
         Package Works
       </a>
@@ -30,190 +23,396 @@
   <!-- ROLE-BASED KPI CARDS -->
   <!-- 1. ADMINISTRATOR & MARKETING_MANAGER KPIs -->
   <section class="kpi-grid" *ngIf="userRole() === 'ADMINISTRATOR' || userRole() === 'MARKETING_MANAGER'">
+    <!-- Card 1: Monthly Revenue -->
     <div class="kpi-card card-revenue">
-      <span class="kpi-title">Monthly Revenue</span>
-      <div class="kpi-value">₹{{ totalRevenue() | number:'1.0-0' }}</div>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-amber">
+          <span class="currency-symbol">₹</span>
+        </div>
+
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-title">MONTHLY REVENUE</span>
+        <div class="kpi-value">₹{{ displayRevenue() | number:'1.0-0' }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Target: ₹{{ displayTargetRevenue | number:'1.0-0' }}</span>
+        <span class="kpi-footer-pill pill-amber">{{ revenuePercentReached() }}% Reached</span>
+      </div>
     </div>
 
+    <!-- Card 2: Total Campaign Leads -->
     <div class="kpi-card card-leads">
-      <span class="kpi-title">Total Campaign Leads</span>
-      <div class="kpi-value">{{ totalLeadsCount() | number }}</div>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-purple">
+          <span class="material-symbols-outlined">groups</span>
+        </div>
+ 
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-title">TOTAL CAMPAIGN LEADS</span>
+        <div class="kpi-value">{{ displayLeadsCount() | number }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">{{ displayActiveFunnels() }} Active Funnels</span>
+        <span class="kpi-footer-pill pill-purple">+{{ leadsTodayCount() }} Today</span>
+      </div>
     </div>
 
+    <!-- Card 3: Qualification Rate -->
     <div class="kpi-card card-conversion">
-      <span class="kpi-title">Qualification Rate</span>
-      <div class="kpi-value">{{ qualificationRate() }}%</div>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-emerald">
+          <span class="material-symbols-outlined">adjust</span>
+        </div>
+
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-title">QUALIFICATION RATE</span>
+        <div class="kpi-value">{{ displayQualRate() }}%</div>
+      </div>
+      <div class="kpi-footer-progress">
+                <div class="kpi-progress-meta">
+          <span class="kpi-footer-text">Quality Index</span>
+          <span class="kpi-footer-text text-emerald font-semibold">High Lead Intent</span>
+        </div>
+      </div>
     </div>
 
+    <!-- Card 4: Open Tasks -->
     <div class="kpi-card card-tasks">
-      <span class="kpi-title">Open Tasks</span>
-      <div class="kpi-value">{{ taskService.tasks().length }}</div>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-rose">
+          <span class="material-symbols-outlined">fact_check</span>
+        </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-title">OPEN TASKS</span>
+        <div class="kpi-value">{{ totalOpenTasksCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Design Queue: {{ designQueueCount() }}</span>
+        <span class="kpi-footer-pill pill-rose">BDM Review: {{ bdmReviewCount() }}</span>
+      </div>
     </div>
   </section>
 
   <!-- 2. DIGITAL_MARKETING KPIs -->
   <section class="kpi-grid" *ngIf="userRole() === 'DIGITAL_MARKETING'">
     <div class="kpi-card card-leads">
-      <div class="kpi-header">
-        <span class="kpi-title">Captured Leads</span>
-        <span class="material-symbols-outlined kpi-icon">groups</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-purple">
+          <span class="material-symbols-outlined">groups</span>
+        </div>
+        <div class="kpi-pill-badge pill-purple"><span class="trend-arrow">↗</span> +8.5%</div>
       </div>
-      <div class="kpi-value">{{ totalLeadsCount() | number }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Captured Leads</span>
+        <div class="kpi-value">{{ displayLeadsCount() | number }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Active Lead Channels</span>
+        <span class="kpi-footer-pill pill-purple">+{{ leadsTodayCount() }} Today</span>
+      </div>
     </div>
 
     <div class="kpi-card card-revenue">
-      <div class="kpi-header">
-        <span class="kpi-title">Active Campaigns</span>
-        <span class="material-symbols-outlined kpi-icon">campaign</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-amber">
+          <span class="material-symbols-outlined">campaign</span>
+        </div>
+        <div class="kpi-pill-badge pill-amber">Live</div>
       </div>
-      <div class="kpi-value">{{ activeCampaignsCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Active Campaigns</span>
+        <div class="kpi-value">{{ displayActiveFunnels() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Meta & Google</span>
+        <span class="kpi-footer-pill pill-amber">100% On Schedule</span>
+      </div>
     </div>
 
     <div class="kpi-card card-tasks">
-      <div class="kpi-header">
-        <span class="kpi-title">Open Package Tasks</span>
-        <span class="material-symbols-outlined kpi-icon">draw</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-rose">
+          <span class="material-symbols-outlined">draw</span>
+        </div>
+        <div class="kpi-pill-badge pill-rose"><span class="urgent-dot">●</span> {{ urgentTasksCount() }} Tasks</div>
       </div>
-      <div class="kpi-value">{{ taskService.tasks().length }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Open Package Tasks</span>
+        <div class="kpi-value">{{ totalOpenTasksCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">In Production: {{ designQueueCount() }}</span>
+        <span class="kpi-footer-pill pill-rose">Review: {{ bdmReviewCount() }}</span>
+      </div>
     </div>
 
     <div class="kpi-card card-conversion">
-      <div class="kpi-header">
-        <span class="kpi-title">Lead Qualification %</span>
-        <span class="material-symbols-outlined kpi-icon">check_circle</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-emerald">
+          <span class="material-symbols-outlined">check_circle</span>
+        </div>
+        <div class="kpi-pill-badge pill-emerald">Optimal</div>
       </div>
-      <div class="kpi-value">{{ qualificationRate() }}%</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Lead Qualification %</span>
+        <div class="kpi-value">{{ displayQualRate() }}%</div>
+      </div>
+      <div class="kpi-footer-progress">
+        <div class="kpi-progress-bar">
+          <div class="kpi-progress-fill" [style.width.%]="displayQualRate()"></div>
+        </div>
+        <div class="kpi-progress-meta">
+          <span class="kpi-footer-text">Funnel Health</span>
+          <span class="kpi-footer-text text-emerald font-semibold">High Conversion</span>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- 3. DESIGNER KPIs -->
   <section class="kpi-grid" *ngIf="userRole() === 'DESIGNER'">
     <div class="kpi-card card-tasks">
-      <div class="kpi-header">
-        <span class="kpi-title">Assigned Tasks</span>
-        <span class="material-symbols-outlined kpi-icon">draw</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-rose">
+          <span class="material-symbols-outlined">draw</span>
+        </div>
+        <div class="kpi-pill-badge pill-rose">My Queue</div>
       </div>
-      <div class="kpi-value">{{ designerAssignedTasks().length }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Assigned Tasks</span>
+        <div class="kpi-value">{{ designerAssignedTasks().length }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Current Sprint</span>
+        <span class="kpi-footer-pill pill-rose">{{ designerInProgressCount() }} In Progress</span>
+      </div>
     </div>
 
     <div class="kpi-card card-revenue">
-      <div class="kpi-header">
-        <span class="kpi-title">In Progress / Accepted</span>
-        <span class="material-symbols-outlined kpi-icon">pending_actions</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-amber">
+          <span class="material-symbols-outlined">pending_actions</span>
+        </div>
+        <div class="kpi-pill-badge pill-amber">Active</div>
       </div>
-      <div class="kpi-value">{{ designerInProgressCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">In Progress / Accepted</span>
+        <div class="kpi-value">{{ designerInProgressCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Drafting Creatives</span>
+        <span class="kpi-footer-pill pill-amber">Priority</span>
+      </div>
     </div>
 
     <div class="kpi-card card-leads">
-      <div class="kpi-header">
-        <span class="kpi-title">Revision Requests</span>
-        <span class="material-symbols-outlined kpi-icon">rate_review</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-purple">
+          <span class="material-symbols-outlined">rate_review</span>
+        </div>
+        <div class="kpi-pill-badge pill-purple">BDM Feedback</div>
       </div>
-      <div class="kpi-value text-amber">{{ designerRevisionCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Revision Requests</span>
+        <div class="kpi-value">{{ designerRevisionCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Updates Needed</span>
+        <span class="kpi-footer-pill pill-purple">Action Required</span>
+      </div>
     </div>
 
     <div class="kpi-card card-conversion">
-      <div class="kpi-header">
-        <span class="kpi-title">Approved Creatives</span>
-        <span class="material-symbols-outlined kpi-icon">verified</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-emerald">
+          <span class="material-symbols-outlined">verified</span>
+        </div>
+        <div class="kpi-pill-badge pill-emerald">Approved</div>
       </div>
-      <div class="kpi-value text-green">{{ designerApprovedCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Approved Creatives</span>
+        <div class="kpi-value">{{ designerApprovedCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Ready for Production</span>
+        <span class="kpi-footer-pill pill-emerald">Published</span>
+      </div>
     </div>
   </section>
 
   <!-- 4. TELECALLER KPIs -->
   <section class="kpi-grid" *ngIf="userRole() === 'TELECALLER'">
     <div class="kpi-card card-leads">
-      <div class="kpi-header">
-        <span class="kpi-title">Assigned Contacts</span>
-        <span class="material-symbols-outlined kpi-icon">contacts</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-purple">
+          <span class="material-symbols-outlined">contacts</span>
+        </div>
+        <div class="kpi-pill-badge pill-purple">Lead Queue</div>
       </div>
-      <div class="kpi-value">{{ telecallerAssignedLeads().length }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Assigned Contacts</span>
+        <div class="kpi-value">{{ telecallerAssignedLeads().length }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Active Campaign Leads</span>
+        <span class="kpi-footer-pill pill-purple">{{ telecallerPendingCallsCount() }} Pending</span>
+      </div>
     </div>
 
     <div class="kpi-card card-tasks">
-      <div class="kpi-header">
-        <span class="kpi-title">Pending Calls</span>
-        <span class="material-symbols-outlined kpi-icon">call_log</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-rose">
+          <span class="material-symbols-outlined">call_log</span>
+        </div>
+        <div class="kpi-pill-badge pill-rose">To Call</div>
       </div>
-      <div class="kpi-value text-amber">{{ telecallerPendingCallsCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Pending Calls</span>
+        <div class="kpi-value">{{ telecallerPendingCallsCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Daily Target: 30</span>
+        <span class="kpi-footer-pill pill-rose">Priority</span>
+      </div>
     </div>
 
     <div class="kpi-card card-conversion">
-      <div class="kpi-header">
-        <span class="kpi-title">Qualified Leads</span>
-        <span class="material-symbols-outlined kpi-icon">verified</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-emerald">
+          <span class="material-symbols-outlined">verified</span>
+        </div>
+        <div class="kpi-pill-badge pill-emerald">Qualified</div>
       </div>
-      <div class="kpi-value text-green">{{ telecallerQualifiedCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Qualified Leads</span>
+        <div class="kpi-value">{{ telecallerQualifiedCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Ready for BDM</span>
+        <span class="kpi-footer-pill pill-emerald">Success</span>
+      </div>
     </div>
 
     <div class="kpi-card card-revenue">
-      <div class="kpi-header">
-        <span class="kpi-title">Calls Logged</span>
-        <span class="material-symbols-outlined kpi-icon">phone_in_talk</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-amber">
+          <span class="material-symbols-outlined">phone_in_talk</span>
+        </div>
+        <div class="kpi-pill-badge pill-amber">Activity</div>
       </div>
-      <div class="kpi-value">{{ totalCallsLoggedCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Calls Logged</span>
+        <div class="kpi-value">{{ totalCallsLoggedCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Completed Touchpoints</span>
+        <span class="kpi-footer-pill pill-amber">Logged</span>
+      </div>
     </div>
   </section>
 
   <!-- 5. BDM KPIs (Task Management & Designer Briefs Only) -->
   <section class="kpi-grid" *ngIf="userRole() === 'BDM'">
     <div class="kpi-card card-tasks">
-      <div class="kpi-header">
-        <span class="kpi-title">My Created Tasks</span>
-        <span class="material-symbols-outlined kpi-icon">add_task</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-rose">
+          <span class="material-symbols-outlined">add_task</span>
+        </div>
+        <div class="kpi-pill-badge pill-rose">Briefs</div>
       </div>
-      <div class="kpi-value">{{ bdmCreatedTasks().length }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">My Created Tasks</span>
+        <div class="kpi-value">{{ bdmCreatedTasks().length }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Assigned to Designers</span>
+        <span class="kpi-footer-pill pill-rose">{{ bdmInProgressCount() }} In Progress</span>
+      </div>
     </div>
 
     <div class="kpi-card card-revenue">
-      <div class="kpi-header">
-        <span class="kpi-title">In Progress with Designer</span>
-        <span class="material-symbols-outlined kpi-icon">pending_actions</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-amber">
+          <span class="material-symbols-outlined">pending_actions</span>
+        </div>
+        <div class="kpi-pill-badge pill-amber">Design Queue</div>
       </div>
-      <div class="kpi-value">{{ bdmInProgressCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">In Progress with Designer</span>
+        <div class="kpi-value">{{ bdmInProgressCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Creative Development</span>
+        <span class="kpi-footer-pill pill-amber">Active</span>
+      </div>
     </div>
 
     <div class="kpi-card card-conversion">
-      <div class="kpi-header">
-        <span class="kpi-title">Approved Creatives</span>
-        <span class="material-symbols-outlined kpi-icon">verified</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-emerald">
+          <span class="material-symbols-outlined">verified</span>
+        </div>
+        <div class="kpi-pill-badge pill-emerald">Approved</div>
       </div>
-      <div class="kpi-value text-green">{{ bdmApprovedCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Approved Creatives</span>
+        <div class="kpi-value">{{ bdmApprovedCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Ready for Campaigns</span>
+        <span class="kpi-footer-pill pill-emerald">Completed</span>
+      </div>
     </div>
 
     <div class="kpi-card card-leads">
-      <div class="kpi-header">
-        <span class="kpi-title">Revisions Required</span>
-        <span class="material-symbols-outlined kpi-icon">rate_review</span>
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-purple">
+          <span class="material-symbols-outlined">rate_review</span>
+        </div>
+        <div class="kpi-pill-badge pill-purple">Revisions</div>
       </div>
-      <div class="kpi-value text-amber">{{ bdmRevisionCount() }}</div>
+      <div class="kpi-body">
+        <span class="kpi-title">Revisions Required</span>
+        <div class="kpi-value">{{ bdmRevisionCount() }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Under Feedback</span>
+        <span class="kpi-footer-pill pill-purple">Pending Designer</span>
+      </div>
     </div>
   </section>
 
-  <!-- FIXED PACKAGES SECTION (Careermate, Classmate, Jesus the messanger) -->
-  <section class="packages-section mt-4">
+  <!-- FIXED PACKAGES SECTION (Careermate, Classmate, Jesus the messenger) -->
+  <section class="packages-section">
     <div class="section-title-bar">
-      <div class="role-label-meta">PACKAGES</div>
+      <div class="role-label-meta">PACKAGES PORTFOLIO</div>
+      <span class="packages-count-label">{{ fixedPackages().length }} Active Offerings</span>
     </div>
 
     <div class="packages-grid">
       <div
         *ngFor="let pkg of fixedPackages()"
         class="package-card"
+        [ngClass]="'card-pkg-' + pkg.colorTheme"
         [routerLink]="['/package-works']"
         [queryParams]="{ package: pkg.name }">
-        <div class="package-card-top">
-          <div class="package-initial-badge">
-            {{ pkg.name[0] }}
-          </div>
+        <div class="package-initial-badge" [ngClass]="'badge-pkg-' + pkg.colorTheme">
+          {{ pkg.initial }}
         </div>
-        <h3 class="package-name">{{ pkg.name }}</h3>
-        <div class="package-stats-line">
-          <span>{{ pkg.taskCount }} Works • {{ pkg.campaignCount }} Campaigns</span>
+        <div class="package-card-info">
+          <span class="package-name">{{ pkg.name }}</span>
+          <span class="package-stats-line">
+            <strong class="works-highlight" [ngClass]="'text-' + pkg.colorTheme">{{ pkg.taskCount }} Works</strong>
+            <span class="dot-sep">·</span>
+            <span class="cmp-highlight">{{ pkg.campaignCount }} {{ pkg.campaignCount === 1 ? 'Campaign' : 'Campaigns' }}</span>
+          </span>
         </div>
-        <div class="package-open-link">
-          Open →
+        <div class="package-arrow-btn" [ngClass]="'btn-pkg-' + pkg.colorTheme">
+          <span class="arrow-char">→</span>
         </div>
       </div>
     </div>
@@ -222,12 +421,42 @@
   <!-- ROLE-SPECIFIC MAIN WORKSPACE PANELS -->
 
   <!-- 1. ADMIN & MARKETING MANAGER PANEL -->
-  <div class="dashboard-grid mt-4" *ngIf="userRole() === 'ADMINISTRATOR' || userRole() === 'MARKETING_MANAGER'">
-    <div class="table-card">
+  <div class="dashboard-grid" *ngIf="userRole() === 'ADMINISTRATOR' || userRole() === 'MARKETING_MANAGER'">
+    <div class="table-card card-campaign-perf">
       <div class="card-title-bar">
-        <h3>Campaign Performance & Spend</h3>
-        <a routerLink="/campaigns" class="link-btn d-inline-flex align-items-center gap-1">
-          All Campaigns <span class="material-symbols-outlined fs-16">expand_more</span>
+        <div class="title-with-tabs">
+          <div class="title-icon-badge">
+            <span class="material-symbols-outlined icon-indigo-tint">analytics</span>
+            <h3>Campaign Performance & Spend</h3>
+          </div>
+          <div class="segmented-tabs">
+            <button
+              type="button"
+              class="tab-pill-btn"
+              [class.active]="activeCampaignTab() === 'ACTIVE'"
+              (click)="setCampaignTab('ACTIVE')">
+              <span class="tab-indicator-dot dot-active"></span>
+              Active
+            </button>
+            <button
+              type="button"
+              class="tab-pill-btn"
+              [class.active]="activeCampaignTab() === 'PLANNING'"
+              (click)="setCampaignTab('PLANNING')">
+              <span class="tab-indicator-dot dot-planning"></span>
+              Planning ({{ planningCampaignsCount() }})
+            </button>
+            <button
+              type="button"
+              class="tab-pill-btn"
+              [class.active]="activeCampaignTab() === 'ALL'"
+              (click)="setCampaignTab('ALL')">
+              All
+            </button>
+          </div>
+        </div>
+        <a routerLink="/campaigns" class="link-btn-glow d-inline-flex align-items-center gap-1">
+          All Campaigns <span class="arrow-char">→</span>
         </a>
       </div>
       <div class="table-responsive">
@@ -242,19 +471,41 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let cmp of recentCampaigns()">
-              <td class="font-bold">{{ cmp.name }}</td>
+            <tr *ngFor="let cmp of recentCampaigns()" class="campaign-row">
               <td>
-                <span class="badge badge-success" *ngIf="cmp.status === 'ACTIVE'">ACTIVE</span>
-                <span class="badge badge-secondary" *ngIf="cmp.status !== 'ACTIVE'">PLANNING</span>
+                <div class="cmp-title-cell">
+                  <span
+                    class="cmp-color-dot"
+                    [ngClass]="{
+                      'dot-careermate': cmp.name.toLowerCase().includes('career'),
+                      'dot-classmate': cmp.name.toLowerCase().includes('class'),
+                      'dot-jesus': cmp.name.toLowerCase().includes('jesus')
+                    }">
+                  </span>
+                  <span class="font-bold cmp-name-text">{{ cmp.name }}</span>
+                </div>
               </td>
-              <td>{{ cmp.leads }}</td>
-              <td>{{ cmp.spend }}</td>
-              <td>{{ cmp.cpl }}</td>
+              <td>
+                <span class="status-pill status-pill-active" *ngIf="cmp.status === 'ACTIVE'">
+                  <span class="pill-glow-dot">●</span> ACTIVE
+                </span>
+                <span class="status-pill status-pill-planning" *ngIf="cmp.status !== 'ACTIVE'">
+                  <span class="pill-glow-dot">●</span> PLANNING
+                </span>
+              </td>
+              <td>
+                <span class="metric-leads-badge">{{ cmp.leads }}</span>
+              </td>
+              <td>
+                <span class="metric-spend-text font-bold">{{ cmp.spend }}</span>
+              </td>
+              <td>
+                <span class="metric-cpl-badge">{{ cmp.cpl }}</span>
+              </td>
             </tr>
             <tr *ngIf="recentCampaigns().length === 0">
               <td colspan="5" class="text-center py-4 text-muted">
-                No campaigns yet
+                No campaigns matching filter.
               </td>
             </tr>
           </tbody>
@@ -263,28 +514,48 @@
     </div>
 
     <div class="side-cards">
-      <div class="shortcuts-card">
+      <div class="shortcuts-card card-admin-palette">
         <div class="admin-card-header">
-          <h3>Administration</h3>
-          <span class="admin-sub">Quick access</span>
+          <div class="admin-header-titles">
+            <h3>Administration</h3>
+            <span class="admin-sub">Quick access management & system logs</span>
+          </div>
         </div>
         <div class="shortcut-links">
-          <a routerLink="/designer-tasks" class="shortcut-item">
-            <div>
+          <a routerLink="/designer-tasks" class="shortcut-item item-purple-theme">
+            <div class="shortcut-icon-squircle icon-gradient-purple">
+              <span class="material-symbols-outlined">draw</span>
+            </div>
+            <div class="shortcut-info">
               <span class="item-title">Designer Tasks</span>
-              <span class="item-desc">Review and assign design work</span>
+              <span class="item-desc">Review and assign creative work</span>
+            </div>
+            <div class="shortcut-arrow-circle">
+              <span class="arrow-char">→</span>
             </div>
           </a>
-          <a routerLink="/users-roles" class="shortcut-item" *ngIf="userRole() === 'ADMINISTRATOR'">
-            <div>
+          <a routerLink="/users-roles" class="shortcut-item item-emerald-theme" *ngIf="userRole() === 'ADMINISTRATOR'">
+            <div class="shortcut-icon-squircle icon-gradient-emerald">
+              <span class="material-symbols-outlined">admin_panel_settings</span>
+            </div>
+            <div class="shortcut-info">
               <span class="item-title">Users & Roles</span>
               <span class="item-desc">Manage system users and access</span>
             </div>
+            <div class="shortcut-arrow-circle">
+              <span class="arrow-char">→</span>
+            </div>
           </a>
-          <a routerLink="/audit-logs" class="shortcut-item">
-            <div>
+          <a routerLink="/audit-logs" class="shortcut-item item-blue-theme">
+            <div class="shortcut-icon-squircle icon-gradient-blue">
+              <span class="material-symbols-outlined">receipt_long</span>
+            </div>
+            <div class="shortcut-info">
               <span class="item-title">Audit Logs</span>
-              <span class="item-desc">View system operation logs</span>
+              <span class="item-desc">View operational trails & logs</span>
+            </div>
+            <div class="shortcut-arrow-circle">
+              <span class="arrow-char">→</span>
             </div>
           </a>
         </div>
@@ -292,14 +563,16 @@
     </div>
 
     <!-- BDM ➔ Designer Flow Operations for Administrator -->
-    <div class="table-card mt-4 span-2" *ngIf="bdmDesignerFlowTasks().length > 0">
+    <div class="table-card card-flow-monitor mt-4 span-2" *ngIf="bdmDesignerFlowTasks().length > 0">
       <div class="card-title-bar">
-        <div class="d-flex align-items-center gap-2">
-          <span class="material-symbols-outlined text-purple">hub</span>
-          <h3>BDM ➔ Designer Workflow Monitor</h3>
+        <div class="flow-header-group">
+          <div class="flow-titles">
+            <h3>BDM ➔ Designer Workflow Monitor</h3>
+          </div>
+          <span class="flow-live-pill">{{ bdmDesignerFlowTasks().length }} Active Works</span>
         </div>
-        <a routerLink="/package-works" class="link-btn d-inline-flex align-items-center gap-1">
-          Package Works Flow <span class="material-symbols-outlined fs-16">arrow_forward</span>
+        <a routerLink="/package-works" class="link-btn-glow d-inline-flex align-items-center gap-1">
+          Package Works Flow <span class="arrow-char">→</span>
         </a>
       </div>
       <div class="table-responsive">
@@ -315,20 +588,52 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let bdmTask of bdmDesignerFlowTasks() | slice:0:6">
-              <td class="font-bold">{{ bdmTask.title }}</td>
-              <td><span class="badge badge-purple">{{ bdmTask.packageName || 'Package' }}</span></td>
-              <td>{{ bdmTask.creatorName || 'BDM' }}</td>
-              <td>{{ bdmTask.assigneeName || 'Designer' }}</td>
+            <tr *ngFor="let bdmTask of bdmDesignerFlowTasks() | slice:0:6" class="workflow-row">
               <td>
-                <span class="badge" [ngClass]="{
-                  'badge-success': bdmTask.status === 'APPROVED' || bdmTask.status === 'PUBLISHED' || bdmTask.status === 'COMPLETED',
-                  'badge-amber': bdmTask.status === 'IN_PROGRESS' || bdmTask.status === 'ACCEPTED',
-                  'badge-blue': bdmTask.status === 'SUBMITTED' || bdmTask.status === 'UNDER_REVIEW',
-                  'badge-red': bdmTask.status === 'REVISION_REQUIRED'
-                }">{{ bdmTask.status }}</span>
+                <div class="task-title-cell">
+                  <div class="task-icon-dot"></div>
+                  <span class="font-bold task-name-text">{{ bdmTask.title }}</span>
+                </div>
               </td>
-              <td>{{ bdmTask.dueDate | date:'mediumDate' }}</td>
+              <td>
+                <span
+                  class="package-tag-pill"
+                  [ngClass]="{
+                    'tag-careermate': (bdmTask.packageName || '').toLowerCase().includes('career'),
+                    'tag-classmate': (bdmTask.packageName || '').toLowerCase().includes('class'),
+                    'tag-jesus': (bdmTask.packageName || '').toLowerCase().includes('jesus')
+                  }">
+                  {{ bdmTask.packageName || 'Package' }}
+                </span>
+              </td>
+              <td>
+                <div class="user-chip-mini">
+                  <span class="avatar-dot avatar-dot-bdm">{{ (bdmTask.creatorName || 'B')[0] }}</span>
+                  <span class="user-name-str">{{ bdmTask.creatorName || 'BDM' }}</span>
+                </div>
+              </td>
+              <td>
+                <div class="user-chip-mini">
+                  <span class="avatar-dot avatar-dot-designer">{{ (bdmTask.assigneeName || 'D')[0] }}</span>
+                  <span class="user-name-str">{{ bdmTask.assigneeName || 'Designer' }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="status-pill" [ngClass]="{
+                  'status-pill-approved': bdmTask.status === 'APPROVED' || bdmTask.status === 'PUBLISHED' || bdmTask.status === 'COMPLETED',
+                  'status-pill-inprogress': bdmTask.status === 'IN_PROGRESS' || bdmTask.status === 'ACCEPTED',
+                  'status-pill-submitted': bdmTask.status === 'SUBMITTED' || bdmTask.status === 'UNDER_REVIEW',
+                  'status-pill-revision': bdmTask.status === 'REVISION_REQUIRED'
+                }">
+                  <span class="pill-glow-dot">●</span> {{ bdmTask.status }}
+                </span>
+              </td>
+              <td>
+                <div class="date-chip">
+                  <span class="material-symbols-outlined date-icon">calendar_today</span>
+                  <span>{{ bdmTask.dueDate | date:'mediumDate' }}</span>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -337,7 +642,7 @@
   </div>
 
   <!-- 2. DIGITAL MARKETING PANEL -->
-  <div class="dashboard-grid mt-4" *ngIf="userRole() === 'DIGITAL_MARKETING'">
+  <div class="dashboard-grid" *ngIf="userRole() === 'DIGITAL_MARKETING'">
     <div class="table-card">
       <div class="card-title-bar">
         <h3>Lead Generation & Channel Activity</h3>
@@ -376,7 +681,6 @@
     <div class="table-card mt-4 span-2" *ngIf="bdmDesignerFlowTasks().length > 0">
       <div class="card-title-bar">
         <div class="d-flex align-items-center gap-2">
-          <span class="material-symbols-outlined text-purple">hub</span>
           <h3>BDM ➔ Designer Creative Flow Monitor</h3>
         </div>
         <a routerLink="/package-works" class="link-btn d-inline-flex align-items-center gap-1">
@@ -426,7 +730,7 @@
   </div>
 
   <!-- 4. TELECALLER PANEL -->
-  <div class="dashboard-grid mt-4" *ngIf="userRole() === 'TELECALLER'">
+  <div class="dashboard-grid" *ngIf="userRole() === 'TELECALLER'">
     <div class="table-card">
       <div class="card-title-bar">
         <h3>My Assigned Contacts & Queue</h3>

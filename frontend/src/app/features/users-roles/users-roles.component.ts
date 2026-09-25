@@ -6,10 +6,12 @@ import { UserManagementService } from '../../core/services/user-management.servi
 import { UserRole } from '../../core/models/auth.model';
 import { ManagedUser, SYSTEM_ROLES_METADATA } from '../../core/models/user-management.model';
 
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-users-roles',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './users-roles.component.html',
   styleUrl: './users-roles.component.scss',
 })
@@ -23,13 +25,16 @@ export class UsersRolesComponent {
   readonly userSearchQuery = signal<string>('');
   readonly selectedRoleFilter = signal<string>('ALL');
 
+  trackById(_index: number, user: ManagedUser): string {
+    return user.id;
+  }
+
   // Create User Signals & Form
   readonly isCreateUserModalOpen = signal<boolean>(false);
   readonly createFormSubmitted = signal<boolean>(false);
   readonly showCreatePassword = signal<boolean>(false);
   readonly userSuccessMsg = signal<string | null>(null);
 
-  // Common Password Validation Rules (Minimum 6 characters, required on create)
   readonly createUserForm: FormGroup = this.fb.group({
     fullName: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],

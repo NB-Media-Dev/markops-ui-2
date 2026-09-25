@@ -2,63 +2,117 @@
   <!-- Top Navigation & Header -->
   <header class="page-header">
     <div class="header-titles-group">
-      <a routerLink="/dashboard" class="back-link">
-        — Back to Dashboard
+      <a routerLink="/dashboard" class="back-pill-link">
+        <span class="arrow-char">←</span>
+        <span>Back to Dashboard</span>
       </a>
-      <h1>{{ activePackageMeta().name }}</h1>
+      <div class="page-meta-track">PACKAGE PORTFOLIO WORKSPACE</div>
+      <h1 class="page-heading">{{ activePackageMeta().name }}</h1>
     </div>
 
     <div class="header-actions-group">
-      <!-- Package Switcher Pills as in Screenshot 1 -->
+      <!-- Package Switcher Pills -->
       <div class="package-pill-switcher">
         <button
           *ngFor="let pkg of availablePackages"
           class="package-switch-pill"
           [class.active]="activePackageName().toLowerCase() === pkg.name.toLowerCase()"
+          [ngClass]="'pkg-pill-' + pkg.badgeColor"
           (click)="selectPackage(pkg.name)">
+          <span class="pkg-dot" [ngClass]="'dot-' + pkg.badgeColor"></span>
           {{ pkg.name }}
         </button>
       </div>
-
     </div>
   </header>
 
-  <!-- Package Summary KPIs matching Screenshot 1 -->
+  <!-- Package Summary KPIs (4 Glowing Medium-Sized Cards) -->
   <div class="kpi-grid" *ngIf="packageMetrics() as m">
-    <div class="kpi-card">
-      <span class="kpi-title">Package Works</span>
-      <div class="kpi-value">{{ m.totalTasks }}</div>
-      <span class="kpi-sub">Total registered</span>
+    <!-- Card 1: Package Works (Indigo theme) -->
+    <div class="kpi-card card-pkg-works">
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-indigo">
+          <span class="material-symbols-outlined">inventory_2</span>
+        </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-title">PACKAGE WORKS</span>
+        <div class="kpi-value">{{ m.totalTasks }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Total Workload</span>
+        <span class="kpi-footer-pill pill-indigo">All Scope</span>
+      </div>
     </div>
 
-    <div class="kpi-card">
-      <span class="kpi-title">In Progress</span>
-      <div class="kpi-value">{{ m.inProgressTasks }}</div>
-      <span class="kpi-sub">Active canvas</span>
+    <!-- Card 2: In Progress (Amber theme) -->
+    <div class="kpi-card card-revenue">
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-amber">
+          <span class="material-symbols-outlined">pending_actions</span>
+        </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-title">IN PROGRESS</span>
+        <div class="kpi-value">{{ m.inProgressTasks }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">In Production</span>
+        <span class="kpi-footer-pill pill-amber">Designing</span>
+      </div>
     </div>
 
-    <div class="kpi-card">
-      <span class="kpi-title">Completed</span>
-      <div class="kpi-value">{{ m.completedTasks }}</div>
-      <span class="kpi-sub">Approved works</span>
+    <!-- Card 3: Completed (Emerald theme) -->
+    <div class="kpi-card card-conversion">
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-emerald">
+          <span class="material-symbols-outlined">verified</span>
+        </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-title">COMPLETED</span>
+        <div class="kpi-value">{{ m.completedTasks }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">Deliverables</span>
+        <span class="kpi-footer-pill pill-emerald">Approved Works</span>
+      </div>
     </div>
 
-    <div class="kpi-card">
-      <span class="kpi-title">Campaigns & Leads</span>
-      <div class="kpi-value">{{ m.totalCampaigns }}</div>
-      <span class="kpi-sub">{{ m.totalLeads }} total leads</span>
+    <!-- Card 4: Campaigns & Leads (Purple theme) -->
+    <div class="kpi-card card-leads">
+      <div class="kpi-top-row">
+        <div class="kpi-squircle-icon icon-purple">
+          <span class="material-symbols-outlined">campaign</span>
+        </div>
+        <div class="kpi-pill-badge pill-purple">
+          {{ m.totalCampaigns }} {{ m.totalCampaigns === 1 ? 'Campaign' : 'Campaigns' }}
+        </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-title">CAMPAIGNS & LEADS</span>
+        <div class="kpi-value">{{ m.totalLeads | number }}</div>
+      </div>
+      <div class="kpi-footer-row">
+        <span class="kpi-footer-text">{{ m.totalCampaigns }} Active Funnels</span>
+        <span class="kpi-footer-pill pill-purple">Pipeline Leads</span>
+      </div>
     </div>
   </div>
 
   <!-- Role-Based Operations Pill Tabs Bar -->
-  <div class="pill-tabs-nav">
-    <button
-      *ngFor="let op of roleOperations()"
-      class="pill-tab"
-      [class.active]="activeOperationTab() === op.id"
-      (click)="selectOperationTab(op.id)">
-      {{ op.label }}
-    </button>
+  <div class="pill-tabs-nav-card">
+    <div class="segmented-tabs-scroll">
+      <button
+        *ngFor="let op of roleOperations()"
+        class="tab-pill-btn"
+        [class.active]="activeOperationTab() === op.id"
+        (click)="selectOperationTab(op.id)">
+        <span class="material-symbols-outlined tab-icon" *ngIf="op.icon">{{ op.icon }}</span>
+        <span>{{ op.label }}</span>
+        <span class="tab-counter-badge" *ngIf="op.badge">{{ op.badge }}</span>
+      </button>
+    </div>
   </div>
 
   <!-- Main Content Card Container -->

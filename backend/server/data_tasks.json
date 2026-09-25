@@ -1,5 +1,99 @@
 [
   {
+    "id": "task_x8syzvwr5",
+    "title": "Diwali Sale Social Media Poster",
+    "packageName": "Careermate",
+    "description": "Need 1080x1080 Instagram post with golden theme and 30% offer badge.",
+    "content": "Need 1080x1080 Instagram post with golden theme and 30% offer badge.",
+    "attachmentUrl": "",
+    "attachmentName": "",
+    "campaignId": "",
+    "campaignName": "",
+    "status": "IN_PROGRESS",
+    "priority": "HIGH",
+    "createdBy": 1,
+    "creatorName": "System Administrator",
+    "creatorRole": "ADMINISTRATOR",
+    "assignedTo": "5",
+    "assigneeName": "Assigned Designer",
+    "progressPercent": 40,
+    "dueDate": "2026-09-29",
+    "createdAt": "2026-09-25T09:47:07.340Z",
+    "updatedAt": "2026-09-25T09:48:54.482Z",
+    "versions": [],
+    "statusHistory": [
+      {
+        "id": "hist_lin4dgn",
+        "taskId": "task_x8syzvwr5",
+        "actorId": "usr_admin_01",
+        "actorName": "System Administrator",
+        "previousStatus": "ASSIGNED",
+        "newStatus": "IN_PROGRESS",
+        "remark": "Designer started active canvas work.",
+        "createdAt": "2026-09-25T09:48:54.482Z"
+      },
+      {
+        "id": "hist_0civd2b",
+        "taskId": "task_x8syzvwr5",
+        "actorId": 1,
+        "actorName": "System Administrator",
+        "previousStatus": null,
+        "newStatus": "ASSIGNED",
+        "remark": "Task created and assigned to Assigned Designer.",
+        "createdAt": "2026-09-25T09:47:07.340Z"
+      }
+    ],
+    "comments": [],
+    "reviewerFeedback": "Designer started active canvas work."
+  },
+  {
+    "id": "task_p28qxynh7",
+    "title": "test1",
+    "packageName": "Careermate",
+    "description": "test1",
+    "content": "test1",
+    "attachmentUrl": "",
+    "attachmentName": "",
+    "campaignId": "",
+    "campaignName": "",
+    "status": "IN_PROGRESS",
+    "priority": "HIGH",
+    "createdBy": 1,
+    "creatorName": "System Administrator",
+    "creatorRole": "ADMINISTRATOR",
+    "assignedTo": "5",
+    "assigneeName": "Assigned Designer",
+    "progressPercent": 40,
+    "dueDate": "2026-09-28",
+    "createdAt": "2026-09-25T09:41:18.886Z",
+    "updatedAt": "2026-09-25T09:42:49.565Z",
+    "versions": [],
+    "statusHistory": [
+      {
+        "id": "hist_06xqms3",
+        "taskId": "task_p28qxynh7",
+        "actorId": "usr_admin_01",
+        "actorName": "System Administrator",
+        "previousStatus": "ASSIGNED",
+        "newStatus": "IN_PROGRESS",
+        "remark": "Designer started active canvas work.",
+        "createdAt": "2026-09-25T09:42:49.565Z"
+      },
+      {
+        "id": "hist_857yr5q",
+        "taskId": "task_p28qxynh7",
+        "actorId": 1,
+        "actorName": "System Administrator",
+        "previousStatus": null,
+        "newStatus": "ASSIGNED",
+        "remark": "Task created and assigned to Assigned Designer.",
+        "createdAt": "2026-09-25T09:41:18.886Z"
+      }
+    ],
+    "comments": [],
+    "reviewerFeedback": "Designer started active canvas work."
+  },
+  {
     "id": "task_jf9yzvbd6",
     "title": "test virun",
     "packageName": "markops",
@@ -53,20 +147,32 @@
     "content": "",
     "attachmentUrl": "",
     "attachmentName": "",
-    "reviewerFeedback": "",
+    "reviewerFeedback": "Designer started active canvas work.",
     "status": "ASSIGNED",
     "priority": "HIGH",
     "createdBy": 1,
     "creatorName": "System Administrator",
     "assignedTo": "",
-    "assigneeName": "Designer",
-    "dueDate": "",
-    "progressPercent": 10,
+    "assigneeName": "deepak",
+    "dueDate": "2026-09-27",
+    "progressPercent": 40,
     "createdAt": "2026-09-24T05:30:04.000Z",
-    "updatedAt": "2026-09-24T05:30:04.000Z",
+    "updatedAt": "2026-09-25T09:42:51.180Z",
     "versions": [],
-    "statusHistory": [],
-    "comments": []
+    "statusHistory": [
+      {
+        "id": "hist_cqeqgot",
+        "taskId": "1",
+        "actorId": "usr_admin_01",
+        "actorName": "System Administrator",
+        "previousStatus": "ASSIGNED",
+        "newStatus": "IN_PROGRESS",
+        "remark": "Designer started active canvas work.",
+        "createdAt": "2026-09-25T09:42:51.180Z"
+      }
+    ],
+    "comments": [],
+    "creatorRole": "ADMINISTRATOR"
   },
   {
     "id": 2,
@@ -81,14 +187,15 @@
     "createdBy": 1,
     "creatorName": "System Administrator",
     "assignedTo": "",
-    "assigneeName": "Designer",
-    "dueDate": "Sun Sep 27 2026 00:00:00 GM",
+    "assigneeName": "deepak",
+    "dueDate": "2026-09-28",
     "progressPercent": 10,
     "createdAt": "2026-09-24T06:10:00.000Z",
     "updatedAt": "2026-09-24T06:10:00.000Z",
     "versions": [],
     "statusHistory": [],
-    "comments": []
+    "comments": [],
+    "creatorRole": "ADMINISTRATOR"
   },
   {
     "id": 3,

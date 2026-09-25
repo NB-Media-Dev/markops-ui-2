@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { UserRole } from '../models/auth.model';
 import { SYSTEM_ROLES_METADATA } from '../models/user-management.model';
@@ -79,7 +79,7 @@ import { NotificationService } from '../services/notification.service';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, RouterLink],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
 })
@@ -107,6 +107,41 @@ export class MainLayoutComponent {
     return ROLE_SIDEBAR_MENU[role] || ROLE_SIDEBAR_MENU.ADMINISTRATOR;
   });
 
+
+  readonly userInitials = computed<string>(() => {
+    const user = this.authService.currentUser();
+    if (!user?.fullName) return 'SA';
+    const parts = user.fullName.trim().split(' ').filter(Boolean);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return (user.fullName.slice(0, 2) || 'SA').toUpperCase();
+  });
+
+  readonly roleAction = computed<{ link: string; label: string; icon: string }>(() => {
+    const role = this.activeRole();
+    switch (role) {
+      case 'ADMINISTRATOR':
+        return { link: '/users-roles', label: 'Manage Users', icon: 'person_add' };
+      case 'DIGITAL_MARKETING':
+        return { link: '/leads', label: 'Leads', icon: 'group_add' };
+      case 'DESIGNER':
+        return { link: '/package-works', label: 'Package Works', icon: 'draw' };
+      case 'BDM':
+        return { link: '/package-works', label: 'Create Task', icon: 'add_task' };
+      case 'TELECALLER':
+        return { link: '/telecalling', label: 'Start Calling', icon: 'call' };
+      default:
+        return { link: '/users-roles', label: 'Manage Users', icon: 'person_add' };
+    }
+  });
+
+  readonly searchQuery = signal<string>('');
+
+  onSearch(event: Event): void {
+    const query = (event.target as HTMLInputElement).value;
+    this.searchQuery.set(query);
+  }
 
   toggleSidebar(): void {
     if (typeof window !== 'undefined' && window.innerWidth <= 768) {
